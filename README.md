@@ -14,7 +14,7 @@ This repository contains stacks to configure my AWS account. This includes:
 
 ## Commands
 
-To install the project's dependencies and run the CI steps:
+To install the project's dependencies and run the CI steps, run:
 
 ```
 pnpm install
