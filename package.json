@@ -3,6 +3,7 @@
   "private": true,
   "packageManager": "pnpm@10.10.0",
   "scripts": {
+    "bootstrap": "source .env && cdk bootstrap aws://$ACCOUNT_ID/eu-west-1 && cdk bootstrap aws://$ACCOUNT_ID/us-east-1",
     "build": "tsc",
     "ci": "npm run lint && npm run build && npm run test",
     "lint": "eslint",

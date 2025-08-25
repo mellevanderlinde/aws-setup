@@ -1171,6 +1171,7 @@ exports[`aws config > identity center stack matches snapshot 1`] = `
                 "iam:DetachRolePolicy",
                 "iam:DeleteRolePolicy",
                 "iam:PutRolePolicy",
+                "iam:UpdateAssumeRolePolicy",
               ],
               "Effect": "Allow",
               "Resource": [

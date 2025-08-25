@@ -12,7 +12,7 @@ import { getEnv } from '../lib/utils/get-env';
 import { getInstance } from '../lib/utils/instance';
 import { getUserId } from '../lib/utils/user';
 
-config();
+config({ quiet: true });
 
 const app = new App();
 

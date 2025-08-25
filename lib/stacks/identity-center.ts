@@ -79,6 +79,7 @@ export class IdentityCenterStack extends Stack {
           'iam:DetachRolePolicy',
           'iam:DeleteRolePolicy',
           'iam:PutRolePolicy',
+          'iam:UpdateAssumeRolePolicy',
         ],
         resources: [
           'arn:aws:iam::*:policy/*',

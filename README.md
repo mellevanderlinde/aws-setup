@@ -26,3 +26,9 @@ To deploy the stacks:
 ```
 cdk deploy
 ```
+
+To bootstrap the account:
+
+```
+pnpm run bootstrap
+```
