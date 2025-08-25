@@ -1,0 +1,1407 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`aws config > budget stack matches snapshot 1`] = `
+{
+  "Resources": {
+    "Budget": {
+      "Properties": {
+        "Budget": {
+          "BudgetLimit": {
+            "Amount": 2,
+            "Unit": "USD",
+          },
+          "BudgetName": "Monthly Budget",
+          "BudgetType": "COST",
+          "TimeUnit": "MONTHLY",
+        },
+        "NotificationsWithSubscribers": [
+          {
+            "Notification": {
+              "ComparisonOperator": "GREATER_THAN",
+              "NotificationType": "ACTUAL",
+              "Threshold": 50,
+            },
+            "Subscribers": [
+              {
+                "Address": "email@example.com",
+                "SubscriptionType": "EMAIL",
+              },
+            ],
+          },
+          {
+            "Notification": {
+              "ComparisonOperator": "GREATER_THAN",
+              "NotificationType": "ACTUAL",
+              "Threshold": 100,
+            },
+            "Subscribers": [
+              {
+                "Address": "email@example.com",
+                "SubscriptionType": "EMAIL",
+              },
+            ],
+          },
+          {
+            "Notification": {
+              "ComparisonOperator": "GREATER_THAN",
+              "NotificationType": "ACTUAL",
+              "Threshold": 1000,
+            },
+            "Subscribers": [
+              {
+                "Address": "email@example.com",
+                "SubscriptionType": "EMAIL",
+              },
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::Budgets::Budget",
+    },
+  },
+}
+`;
+
+exports[`aws config > drift detection stack matches snapshot 1`] = `
+{
+  "Resources": {
+    "AlarmDetectDrift428D1D25": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Ref": "TopicBFC7AF6E",
+          },
+        ],
+        "AlarmName": {
+          "Ref": "DetectDrift61B54248",
+        },
+        "ComparisonOperator": "GreaterThanOrEqualToThreshold",
+        "Dimensions": [
+          {
+            "Name": "FunctionName",
+            "Value": {
+              "Ref": "DetectDrift61B54248",
+            },
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "Errors",
+        "Namespace": "AWS/Lambda",
+        "Period": 300,
+        "Statistic": "Sum",
+        "Threshold": 1,
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "DetectDrift61B54248": {
+      "DependsOn": [
+        "DetectDriftServiceRoleDefaultPolicy90C8D37A",
+        "DetectDriftServiceRole0271A5CB",
+      ],
+      "Properties": {
+        "Architectures": [
+          "arm64",
+        ],
+        "Code": {
+          "S3Bucket": {
+            "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
+          },
+          "S3Key": "464506cf7df8341c67b1803f86aad47c1c6d6ca8f64edf51ff9d8ab7bfcee7b6.zip",
+        },
+        "Environment": {
+          "Variables": {
+            "TOPIC_ARN": {
+              "Ref": "TopicBFC7AF6E",
+            },
+          },
+        },
+        "FunctionName": "drift-detection",
+        "Handler": "index.handler",
+        "LoggingConfig": {
+          "LogFormat": "JSON",
+          "LogGroup": {
+            "Ref": "LogGroupF5B46931",
+          },
+          "SystemLogLevel": "WARN",
+        },
+        "Role": {
+          "Fn::GetAtt": [
+            "DetectDriftServiceRole0271A5CB",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 60,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "DetectDriftServiceRole0271A5CB": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "Basic execution role is allowed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "Wildcards are required",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Join": [
+              "",
+              [
+                "arn:",
+                {
+                  "Ref": "AWS::Partition",
+                },
+                ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+              ],
+            ],
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "DetectDriftServiceRoleDefaultPolicy90C8D37A": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM4",
+              "reason": "Basic execution role is allowed",
+            },
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "Wildcards are required",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Resource": {
+                "Ref": "TopicBFC7AF6E",
+              },
+            },
+            {
+              "Action": [
+                "cloudformation:ListStacks",
+                "cloudformation:DetectStackResourceDrift",
+                "cloudformation:DetectStackDrift",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:cloudformation:eu-west-1:",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":stack/*/*",
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:cloudformation:us-east-1:",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":stack/*/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": "cloudformation:DescribeStackDriftDetectionStatus",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "DetectDriftServiceRoleDefaultPolicy90C8D37A",
+        "Roles": [
+          {
+            "Ref": "DetectDriftServiceRole0271A5CB",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "LogGroupF5B46931": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "drift-detection",
+        "RetentionInDays": 14,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "Schedule83A77FD1": {
+      "Properties": {
+        "FlexibleTimeWindow": {
+          "Mode": "OFF",
+        },
+        "Name": "drift-detection",
+        "ScheduleExpression": "rate(1 day)",
+        "ScheduleExpressionTimezone": "Etc/UTC",
+        "State": "ENABLED",
+        "Target": {
+          "Arn": {
+            "Fn::GetAtt": [
+              "DetectDrift61B54248",
+              "Arn",
+            ],
+          },
+          "RetryPolicy": {
+            "MaximumEventAgeInSeconds": 86400,
+            "MaximumRetryAttempts": 185,
+          },
+          "RoleArn": {
+            "Fn::GetAtt": [
+              "SchedulerRoleForTargetbb28f264D3CFAE",
+              "Arn",
+            ],
+          },
+        },
+      },
+      "Type": "AWS::Scheduler::Schedule",
+    },
+    "SchedulerRoleForTargetbb28f264D3CFAE": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Condition": {
+                "StringEquals": {
+                  "aws:SourceAccount": {
+                    "Ref": "AWS::AccountId",
+                  },
+                  "aws:SourceArn": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":scheduler:",
+                        {
+                          "Ref": "AWS::Region",
+                        },
+                        ":",
+                        {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":schedule-group/default",
+                      ],
+                    ],
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "scheduler.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "SchedulerRoleForTargetbb28f2DefaultPolicy00EE2220": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "Wildcards are required",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "lambda:InvokeFunction",
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "DetectDrift61B54248",
+                    "Arn",
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      {
+                        "Fn::GetAtt": [
+                          "DetectDrift61B54248",
+                          "Arn",
+                        ],
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "SchedulerRoleForTargetbb28f2DefaultPolicy00EE2220",
+        "Roles": [
+          {
+            "Ref": "SchedulerRoleForTargetbb28f264D3CFAE",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "TopicBFC7AF6E": {
+      "Properties": {
+        "TopicName": "drift-detection",
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+    "TopicPolicyA1747468": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sns:Publish",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": "*",
+              "Resource": {
+                "Ref": "TopicBFC7AF6E",
+              },
+              "Sid": "AllowPublishThroughSSLOnly",
+            },
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "cloudwatch.amazonaws.com",
+              },
+              "Resource": {
+                "Ref": "TopicBFC7AF6E",
+              },
+              "Sid": "1",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": [
+          {
+            "Ref": "TopicBFC7AF6E",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
+    },
+    "TopicemailexamplecomFECAF2FF": {
+      "Properties": {
+        "Endpoint": "email@example.com",
+        "Protocol": "email",
+        "TopicArn": {
+          "Ref": "TopicBFC7AF6E",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+  },
+}
+`;
+
+exports[`aws config > garbage collection stack matches snapshot 1`] = `
+{
+  "Resources": {
+    "LogGroupF5B46931": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "LogGroupName": "/aws/codebuild/garbage-collection",
+        "RetentionInDays": 1,
+      },
+      "Type": "AWS::Logs::LogGroup",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ProjectBuildFailedD1CA6DC5": {
+      "Properties": {
+        "EventPattern": {
+          "detail": {
+            "build-status": [
+              "FAILED",
+            ],
+            "project-name": [
+              {
+                "Ref": "ProjectC78D97AD",
+              },
+            ],
+          },
+          "detail-type": [
+            "CodeBuild Build State Change",
+          ],
+          "source": [
+            "aws.codebuild",
+          ],
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Arn": {
+              "Ref": "TopicBFC7AF6E",
+            },
+            "Id": "Target0",
+          },
+        ],
+      },
+      "Type": "AWS::Events::Rule",
+    },
+    "ProjectC78D97AD": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-CB4",
+              "reason": "AWS managed encryption is sufficient",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "Artifacts": {
+          "Type": "NO_ARTIFACTS",
+        },
+        "Cache": {
+          "Type": "NO_CACHE",
+        },
+        "ConcurrentBuildLimit": 1,
+        "EncryptionKey": "alias/aws/s3",
+        "Environment": {
+          "ComputeType": "BUILD_GENERAL1_SMALL",
+          "Image": "aws/codebuild/standard:7.0",
+          "ImagePullCredentialsType": "CODEBUILD",
+          "PrivilegedMode": false,
+          "Type": "LINUX_CONTAINER",
+        },
+        "LogsConfig": {
+          "CloudWatchLogs": {
+            "GroupName": {
+              "Ref": "LogGroupF5B46931",
+            },
+            "Status": "ENABLED",
+          },
+        },
+        "Name": "garbage-collection",
+        "ServiceRole": {
+          "Fn::GetAtt": [
+            "ProjectRole4CCB274E",
+            "Arn",
+          ],
+        },
+        "Source": {
+          "BuildSpec": {
+            "Fn::Join": [
+              "",
+              [
+                "{
+  "version": "0.2",
+  "phases": {
+    "install": {
+      "commands": [
+        "npm install -g aws-cdk"
+      ]
+    },
+    "build": {
+      "commands": [
+        "cdk gc aws://",
+                {
+                  "Ref": "AWS::AccountId",
+                },
+                "/eu-west-1 --unstable=gc --confirm=false --created-buffer-days=0",
+        "cdk gc aws://",
+                {
+                  "Ref": "AWS::AccountId",
+                },
+                "/us-east-1 --unstable=gc --confirm=false --created-buffer-days=0"
+      ]
+    }
+  }
+}",
+              ],
+            ],
+          },
+          "Type": "NO_SOURCE",
+        },
+        "TimeoutInMinutes": 5,
+      },
+      "Type": "AWS::CodeBuild::Project",
+    },
+    "ProjectRole4CCB274E": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "The project needs to access CloudFormation, S3 and ECR resources",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "codebuild.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ProjectRoleDefaultPolicy7F29461B": {
+      "Metadata": {
+        "cdk_nag": {
+          "rules_to_suppress": [
+            {
+              "id": "AwsSolutions-IAM5",
+              "reason": "The project needs to access CloudFormation, S3 and ECR resources",
+            },
+          ],
+        },
+      },
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": [
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "LogGroupF5B46931",
+                  "Arn",
+                ],
+              },
+            },
+            {
+              "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":logs:",
+                      {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":log-group:/aws/codebuild/",
+                      {
+                        "Ref": "ProjectC78D97AD",
+                      },
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":logs:",
+                      {
+                        "Ref": "AWS::Region",
+                      },
+                      ":",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":log-group:/aws/codebuild/",
+                      {
+                        "Ref": "ProjectC78D97AD",
+                      },
+                      ":*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "codebuild:CreateReportGroup",
+                "codebuild:CreateReport",
+                "codebuild:UpdateReport",
+                "codebuild:BatchPutTestCases",
+                "codebuild:BatchPutCodeCoverages",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition",
+                    },
+                    ":codebuild:",
+                    {
+                      "Ref": "AWS::Region",
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":report-group/",
+                    {
+                      "Ref": "ProjectC78D97AD",
+                    },
+                    "-*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "cloudformation:DescribeStacks",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:cloudformation:eu-west-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":stack/CDKToolkit/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "cloudformation:ListStacks",
+                "cloudformation:GetTemplateSummary",
+                "cloudformation:GetTemplate",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:cloudformation:eu-west-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":stack/*/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::cdk-hnb659fds-assets-",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-eu-west-1",
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::cdk-hnb659fds-assets-",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-eu-west-1/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:BatchDeleteImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:ecr:eu-west-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/cdk-hnb659fds-container-assets-",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    "-eu-west-1",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "cloudformation:DescribeStacks",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:cloudformation:us-east-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":stack/CDKToolkit/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "cloudformation:ListStacks",
+                "cloudformation:GetTemplateSummary",
+                "cloudformation:GetTemplate",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:cloudformation:us-east-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":stack/*/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "s3:GetObject*",
+                "s3:GetBucket*",
+                "s3:List*",
+                "s3:DeleteObject*",
+                "s3:PutObject",
+                "s3:PutObjectLegalHold",
+                "s3:PutObjectRetention",
+                "s3:PutObjectTagging",
+                "s3:PutObjectVersionTagging",
+                "s3:Abort*",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::cdk-hnb659fds-assets-",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-us-east-1",
+                    ],
+                  ],
+                },
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition",
+                      },
+                      ":s3:::cdk-hnb659fds-assets-",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      "-us-east-1/*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage",
+                "ecr:BatchDeleteImage",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:ecr:us-east-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/cdk-hnb659fds-container-assets-",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    "-us-east-1",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "ProjectRoleDefaultPolicy7F29461B",
+        "Roles": [
+          {
+            "Ref": "ProjectRole4CCB274E",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "Schedule83A77FD1": {
+      "Properties": {
+        "FlexibleTimeWindow": {
+          "Mode": "OFF",
+        },
+        "Name": "garbage-collection",
+        "ScheduleExpression": "rate(1 day)",
+        "ScheduleExpressionTimezone": "Etc/UTC",
+        "State": "ENABLED",
+        "Target": {
+          "Arn": {
+            "Fn::GetAtt": [
+              "ProjectC78D97AD",
+              "Arn",
+            ],
+          },
+          "RetryPolicy": {
+            "MaximumEventAgeInSeconds": 86400,
+            "MaximumRetryAttempts": 185,
+          },
+          "RoleArn": {
+            "Fn::GetAtt": [
+              "SchedulerRoleForTarget27bd47517CF0F8",
+              "Arn",
+            ],
+          },
+        },
+      },
+      "Type": "AWS::Scheduler::Schedule",
+    },
+    "SchedulerRoleForTarget27bd47517CF0F8": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Condition": {
+                "StringEquals": {
+                  "aws:SourceAccount": {
+                    "Ref": "AWS::AccountId",
+                  },
+                  "aws:SourceArn": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":scheduler:",
+                        {
+                          "Ref": "AWS::Region",
+                        },
+                        ":",
+                        {
+                          "Ref": "AWS::AccountId",
+                        },
+                        ":schedule-group/default",
+                      ],
+                    ],
+                  },
+                },
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "scheduler.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "SchedulerRoleForTarget27bd47DefaultPolicy069DA78E": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "codebuild:StartBuild",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::GetAtt": [
+                  "ProjectC78D97AD",
+                  "Arn",
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "PolicyName": "SchedulerRoleForTarget27bd47DefaultPolicy069DA78E",
+        "Roles": [
+          {
+            "Ref": "SchedulerRoleForTarget27bd47517CF0F8",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Policy",
+    },
+    "TopicBFC7AF6E": {
+      "Properties": {
+        "TopicName": "garbage-collection",
+      },
+      "Type": "AWS::SNS::Topic",
+    },
+    "TopicPolicyA1747468": {
+      "Properties": {
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sns:Publish",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": "*",
+              "Resource": {
+                "Ref": "TopicBFC7AF6E",
+              },
+              "Sid": "AllowPublishThroughSSLOnly",
+            },
+            {
+              "Action": "sns:Publish",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "events.amazonaws.com",
+              },
+              "Resource": {
+                "Ref": "TopicBFC7AF6E",
+              },
+              "Sid": "1",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "Topics": [
+          {
+            "Ref": "TopicBFC7AF6E",
+          },
+        ],
+      },
+      "Type": "AWS::SNS::TopicPolicy",
+    },
+    "TopicemailexamplecomFECAF2FF": {
+      "Properties": {
+        "Endpoint": "email@example.com",
+        "Protocol": "email",
+        "TopicArn": {
+          "Ref": "TopicBFC7AF6E",
+        },
+      },
+      "Type": "AWS::SNS::Subscription",
+    },
+  },
+}
+`;
+
+exports[`aws config > identity center stack matches snapshot 1`] = `
+{
+  "Resources": {
+    "Assignment": {
+      "Properties": {
+        "InstanceArn": "instanceArn",
+        "PermissionSetArn": {
+          "Fn::GetAtt": [
+            "PermissionSet",
+            "PermissionSetArn",
+          ],
+        },
+        "PrincipalId": "userId",
+        "PrincipalType": "USER",
+        "TargetId": {
+          "Ref": "AWS::AccountId",
+        },
+        "TargetType": "AWS_ACCOUNT",
+      },
+      "Type": "AWS::SSO::Assignment",
+    },
+    "PermissionSet": {
+      "Properties": {
+        "InlinePolicy": {
+          "Statement": [
+            {
+              "Action": [
+                "cloudformation:CreateChangeSet",
+                "cloudformation:DeleteStack",
+                "cloudformation:DeleteChangeSet",
+                "cloudformation:DescribeChangeSet",
+                "cloudformation:DescribeStackEvents",
+                "cloudformation:DescribeStacks",
+                "cloudformation:ExecuteChangeSet",
+                "cloudformation:GetTemplate",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:cloudformation:eu-west-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":stack/CDKToolkit/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "iam:CreateRole",
+                "iam:DeleteRole",
+                "iam:GetRole",
+                "iam:AttachRolePolicy",
+                "iam:DetachRolePolicy",
+                "iam:DeleteRolePolicy",
+                "iam:PutRolePolicy",
+              ],
+              "Effect": "Allow",
+              "Resource": [
+                "arn:aws:iam::*:policy/*",
+                {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:aws:iam::",
+                      {
+                        "Ref": "AWS::AccountId",
+                      },
+                      ":role/cdk-hnb659fds-*",
+                    ],
+                  ],
+                },
+              ],
+            },
+            {
+              "Action": [
+                "s3:CreateBucket",
+                "s3:DeleteBucket",
+                "s3:PutBucketPolicy",
+                "s3:DeleteBucketPolicy",
+                "s3:PutBucketPublicAccessBlock",
+                "s3:PutBucketVersioning",
+                "s3:PutEncryptionConfiguration",
+                "s3:PutLifecycleConfiguration",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:s3:::cdk-hnb659fds-assets-",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    "-eu-west-1",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "ssm:DeleteParameter",
+                "ssm:GetParameter",
+                "ssm:GetParameters",
+                "ssm:PutParameter",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:ssm:eu-west-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":parameter/cdk-bootstrap/hnb659fds/version",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "ecr:CreateRepository",
+                "ecr:DeleteRepository",
+                "ecr:DescribeRepositories",
+                "ecr:SetRepositoryPolicy",
+                "ecr:PutLifecyclePolicy",
+                "ecr:PutImageTagMutability",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:ecr:eu-west-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/cdk-hnb659fds-container-assets-",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    "-eu-west-1",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "cloudformation:CreateChangeSet",
+                "cloudformation:DeleteStack",
+                "cloudformation:DeleteChangeSet",
+                "cloudformation:DescribeChangeSet",
+                "cloudformation:DescribeStackEvents",
+                "cloudformation:DescribeStacks",
+                "cloudformation:ExecuteChangeSet",
+                "cloudformation:GetTemplate",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:cloudformation:us-east-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":stack/CDKToolkit/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "s3:CreateBucket",
+                "s3:DeleteBucket",
+                "s3:PutBucketPolicy",
+                "s3:DeleteBucketPolicy",
+                "s3:PutBucketPublicAccessBlock",
+                "s3:PutBucketVersioning",
+                "s3:PutEncryptionConfiguration",
+                "s3:PutLifecycleConfiguration",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:s3:::cdk-hnb659fds-assets-",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    "-us-east-1",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "ssm:DeleteParameter",
+                "ssm:GetParameter",
+                "ssm:GetParameters",
+                "ssm:PutParameter",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:ssm:us-east-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":parameter/cdk-bootstrap/hnb659fds/version",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "ecr:CreateRepository",
+                "ecr:DeleteRepository",
+                "ecr:DescribeRepositories",
+                "ecr:SetRepositoryPolicy",
+                "ecr:PutLifecyclePolicy",
+                "ecr:PutImageTagMutability",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:ecr:us-east-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":repository/cdk-hnb659fds-container-assets-",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    "-us-east-1",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": "sts:AssumeRole",
+              "Condition": {
+                "StringEquals": {
+                  "iam:ResourceTag/aws-cdk:bootstrap-role": [
+                    "image-publishing",
+                    "file-publishing",
+                    "deploy",
+                    "lookup",
+                  ],
+                },
+              },
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+            {
+              "Action": "cloudfront:CreateInvalidation",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:cloudfront::",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":distribution/*",
+                  ],
+                ],
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "InstanceArn": "instanceArn",
+        "ManagedPolicies": [
+          "arn:aws:iam::aws:policy/ReadOnlyAccess",
+        ],
+        "Name": "developer",
+      },
+      "Type": "AWS::SSO::PermissionSet",
+    },
+  },
+}
+`;
