@@ -45,6 +45,19 @@ exports[`aws config > budget stack matches snapshot 1`] = `
             "Notification": {
               "ComparisonOperator": "GREATER_THAN",
               "NotificationType": "ACTUAL",
+              "Threshold": 500,
+            },
+            "Subscribers": [
+              {
+                "Address": "email@example.com",
+                "SubscriptionType": "EMAIL",
+              },
+            ],
+          },
+          {
+            "Notification": {
+              "ComparisonOperator": "GREATER_THAN",
+              "NotificationType": "ACTUAL",
               "Threshold": 1000,
             },
             "Subscribers": [

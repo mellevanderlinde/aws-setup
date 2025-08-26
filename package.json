@@ -1,7 +1,7 @@
 {
   "name": "aws-config",
   "private": true,
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.15.0",
   "scripts": {
     "bootstrap": "source .env && cdk bootstrap aws://$ACCOUNT_ID/eu-west-1 && cdk bootstrap aws://$ACCOUNT_ID/us-east-1",
     "build": "tsc",

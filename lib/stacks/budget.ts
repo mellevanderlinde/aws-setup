@@ -26,6 +26,7 @@ export class BudgetStack extends Stack {
       notificationsWithSubscribers: [
         createNotification(50),
         createNotification(100),
+        createNotification(500),
         createNotification(1000),
       ],
     });
