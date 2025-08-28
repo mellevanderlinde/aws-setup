@@ -1225,6 +1225,7 @@ exports[`aws config > identity center stack matches snapshot 1`] = `
                 "iam:CreateRole",
                 "iam:DeleteRole",
                 "iam:GetRole",
+                "iam:TagRole",
                 "iam:AttachRolePolicy",
                 "iam:DetachRolePolicy",
                 "iam:DeleteRolePolicy",

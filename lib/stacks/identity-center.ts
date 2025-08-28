@@ -75,6 +75,7 @@ export class IdentityCenterStack extends Stack {
           'iam:CreateRole',
           'iam:DeleteRole',
           'iam:GetRole',
+          'iam:TagRole',
           'iam:AttachRolePolicy',
           'iam:DetachRolePolicy',
           'iam:DeleteRolePolicy',
