@@ -149,7 +149,7 @@ exports[`aws config > drift detection stack matches snapshot 1`] = `
           ],
         },
         "Runtime": "nodejs22.x",
-        "Timeout": 60,
+        "Timeout": 120,
       },
       "Type": "AWS::Lambda::Function",
       "UpdateReplacePolicy": "Delete",

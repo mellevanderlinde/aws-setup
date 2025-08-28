@@ -40,7 +40,7 @@ export class DriftDetectionStack extends Stack {
       architecture: Architecture.ARM_64,
       systemLogLevelV2: SystemLogLevel.WARN,
       loggingFormat: LoggingFormat.JSON,
-      timeout: Duration.minutes(1),
+      timeout: Duration.minutes(2),
       environment: { TOPIC_ARN: topic.topicArn },
     });
 

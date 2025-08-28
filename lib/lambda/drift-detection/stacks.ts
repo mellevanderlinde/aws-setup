@@ -17,5 +17,7 @@ export async function getStacks(region: Region): Promise<string[]> {
   if (NextToken) {
     throw new Error('Pagination not supported');
   }
-  return StackSummaries?.map(s => s.StackName || '') || [];
+  return StackSummaries
+    ?.filter(s => s.StackName !== 'CDKToolkit') // Exclude CDKToolkit (managed by CDK) which often shows drift (even right after a fresh bootstrap)
+    .map(s => s.StackName || '') || [];
 }
