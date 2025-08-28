@@ -7,7 +7,7 @@ import { GarbageCollectionStack } from '../../lib/stacks/garbage-collection';
 import { IdentityCenterStack } from '../../lib/stacks/identity-center';
 import { RemovalPolicyDestroyAspect } from '../../lib/utils/aspects';
 
-describe('aws config', () => {
+describe('aws setup', () => {
   const email = 'email@example.com';
   let app: App;
 

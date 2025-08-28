@@ -1,6 +1,6 @@
-# AWS Account Configurations
+# AWS Account Setup
 
-This repository contains stacks to configure my AWS account. This includes:
+This repository contains stacks to setup my AWS account. This includes:
 
 - Cost budget, which notifies when a threshold is exceeded.
 - Identity Center, which sets up a permission set with developer access.
