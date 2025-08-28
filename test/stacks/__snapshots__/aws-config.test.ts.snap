@@ -124,7 +124,7 @@ exports[`aws config > drift detection stack matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "464506cf7df8341c67b1803f86aad47c1c6d6ca8f64edf51ff9d8ab7bfcee7b6.zip",
+          "S3Key": "aa01bbb8ad85c32a44b7ca69b2c23c9d9dc1b1e6ab1899ddb6064e7dda8eea92.zip",
         },
         "Environment": {
           "Variables": {
