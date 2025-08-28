@@ -4,6 +4,7 @@ exports[`aws config > budget stack matches snapshot 1`] = `
 {
   "Resources": {
     "Budget": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "Budget": {
           "BudgetLimit": {
@@ -70,6 +71,7 @@ exports[`aws config > budget stack matches snapshot 1`] = `
         ],
       },
       "Type": "AWS::Budgets::Budget",
+      "UpdateReplacePolicy": "Delete",
     },
   },
 }
@@ -79,6 +81,7 @@ exports[`aws config > drift detection stack matches snapshot 1`] = `
 {
   "Resources": {
     "AlarmDetectDrift428D1D25": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "AlarmActions": [
           {
@@ -105,8 +108,10 @@ exports[`aws config > drift detection stack matches snapshot 1`] = `
         "Threshold": 1,
       },
       "Type": "AWS::CloudWatch::Alarm",
+      "UpdateReplacePolicy": "Delete",
     },
     "DetectDrift61B54248": {
+      "DeletionPolicy": "Delete",
       "DependsOn": [
         "DetectDriftServiceRoleDefaultPolicy90C8D37A",
         "DetectDriftServiceRole0271A5CB",
@@ -147,8 +152,10 @@ exports[`aws config > drift detection stack matches snapshot 1`] = `
         "Timeout": 60,
       },
       "Type": "AWS::Lambda::Function",
+      "UpdateReplacePolicy": "Delete",
     },
     "DetectDriftServiceRole0271A5CB": {
+      "DeletionPolicy": "Delete",
       "Metadata": {
         "cdk_nag": {
           "rules_to_suppress": [
@@ -192,8 +199,10 @@ exports[`aws config > drift detection stack matches snapshot 1`] = `
         ],
       },
       "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Delete",
     },
     "DetectDriftServiceRoleDefaultPolicy90C8D37A": {
+      "DeletionPolicy": "Delete",
       "Metadata": {
         "cdk_nag": {
           "rules_to_suppress": [
@@ -268,6 +277,7 @@ exports[`aws config > drift detection stack matches snapshot 1`] = `
         ],
       },
       "Type": "AWS::IAM::Policy",
+      "UpdateReplacePolicy": "Delete",
     },
     "LogGroupF5B46931": {
       "DeletionPolicy": "Delete",
@@ -279,6 +289,7 @@ exports[`aws config > drift detection stack matches snapshot 1`] = `
       "UpdateReplacePolicy": "Delete",
     },
     "Schedule83A77FD1": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "FlexibleTimeWindow": {
           "Mode": "OFF",
@@ -307,8 +318,10 @@ exports[`aws config > drift detection stack matches snapshot 1`] = `
         },
       },
       "Type": "AWS::Scheduler::Schedule",
+      "UpdateReplacePolicy": "Delete",
     },
     "SchedulerRoleForTargetbb28f264D3CFAE": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -351,8 +364,10 @@ exports[`aws config > drift detection stack matches snapshot 1`] = `
         },
       },
       "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Delete",
     },
     "SchedulerRoleForTargetbb28f2DefaultPolicy00EE2220": {
+      "DeletionPolicy": "Delete",
       "Metadata": {
         "cdk_nag": {
           "rules_to_suppress": [
@@ -403,14 +418,18 @@ exports[`aws config > drift detection stack matches snapshot 1`] = `
         ],
       },
       "Type": "AWS::IAM::Policy",
+      "UpdateReplacePolicy": "Delete",
     },
     "TopicBFC7AF6E": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "TopicName": "drift-detection",
       },
       "Type": "AWS::SNS::Topic",
+      "UpdateReplacePolicy": "Delete",
     },
     "TopicPolicyA1747468": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -449,8 +468,10 @@ exports[`aws config > drift detection stack matches snapshot 1`] = `
         ],
       },
       "Type": "AWS::SNS::TopicPolicy",
+      "UpdateReplacePolicy": "Delete",
     },
     "TopicemailexamplecomFECAF2FF": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "Endpoint": "email@example.com",
         "Protocol": "email",
@@ -459,6 +480,7 @@ exports[`aws config > drift detection stack matches snapshot 1`] = `
         },
       },
       "Type": "AWS::SNS::Subscription",
+      "UpdateReplacePolicy": "Delete",
     },
   },
 }
@@ -477,6 +499,7 @@ exports[`aws config > garbage collection stack matches snapshot 1`] = `
       "UpdateReplacePolicy": "Delete",
     },
     "ProjectBuildFailedD1CA6DC5": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "EventPattern": {
           "detail": {
@@ -507,8 +530,10 @@ exports[`aws config > garbage collection stack matches snapshot 1`] = `
         ],
       },
       "Type": "AWS::Events::Rule",
+      "UpdateReplacePolicy": "Delete",
     },
     "ProjectC78D97AD": {
+      "DeletionPolicy": "Delete",
       "Metadata": {
         "cdk_nag": {
           "rules_to_suppress": [
@@ -587,8 +612,10 @@ exports[`aws config > garbage collection stack matches snapshot 1`] = `
         "TimeoutInMinutes": 5,
       },
       "Type": "AWS::CodeBuild::Project",
+      "UpdateReplacePolicy": "Delete",
     },
     "ProjectRole4CCB274E": {
+      "DeletionPolicy": "Delete",
       "Metadata": {
         "cdk_nag": {
           "rules_to_suppress": [
@@ -614,8 +641,10 @@ exports[`aws config > garbage collection stack matches snapshot 1`] = `
         },
       },
       "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Delete",
     },
     "ProjectRoleDefaultPolicy7F29461B": {
+      "DeletionPolicy": "Delete",
       "Metadata": {
         "cdk_nag": {
           "rules_to_suppress": [
@@ -964,8 +993,10 @@ exports[`aws config > garbage collection stack matches snapshot 1`] = `
         ],
       },
       "Type": "AWS::IAM::Policy",
+      "UpdateReplacePolicy": "Delete",
     },
     "Schedule83A77FD1": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "FlexibleTimeWindow": {
           "Mode": "OFF",
@@ -994,8 +1025,10 @@ exports[`aws config > garbage collection stack matches snapshot 1`] = `
         },
       },
       "Type": "AWS::Scheduler::Schedule",
+      "UpdateReplacePolicy": "Delete",
     },
     "SchedulerRoleForTarget27bd47517CF0F8": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -1038,8 +1071,10 @@ exports[`aws config > garbage collection stack matches snapshot 1`] = `
         },
       },
       "Type": "AWS::IAM::Role",
+      "UpdateReplacePolicy": "Delete",
     },
     "SchedulerRoleForTarget27bd47DefaultPolicy069DA78E": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -1064,14 +1099,18 @@ exports[`aws config > garbage collection stack matches snapshot 1`] = `
         ],
       },
       "Type": "AWS::IAM::Policy",
+      "UpdateReplacePolicy": "Delete",
     },
     "TopicBFC7AF6E": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "TopicName": "garbage-collection",
       },
       "Type": "AWS::SNS::Topic",
+      "UpdateReplacePolicy": "Delete",
     },
     "TopicPolicyA1747468": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -1110,8 +1149,10 @@ exports[`aws config > garbage collection stack matches snapshot 1`] = `
         ],
       },
       "Type": "AWS::SNS::TopicPolicy",
+      "UpdateReplacePolicy": "Delete",
     },
     "TopicemailexamplecomFECAF2FF": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "Endpoint": "email@example.com",
         "Protocol": "email",
@@ -1120,6 +1161,7 @@ exports[`aws config > garbage collection stack matches snapshot 1`] = `
         },
       },
       "Type": "AWS::SNS::Subscription",
+      "UpdateReplacePolicy": "Delete",
     },
   },
 }
@@ -1129,6 +1171,7 @@ exports[`aws config > identity center stack matches snapshot 1`] = `
 {
   "Resources": {
     "Assignment": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "InstanceArn": "instanceArn",
         "PermissionSetArn": {
@@ -1145,8 +1188,10 @@ exports[`aws config > identity center stack matches snapshot 1`] = `
         "TargetType": "AWS_ACCOUNT",
       },
       "Type": "AWS::SSO::Assignment",
+      "UpdateReplacePolicy": "Delete",
     },
     "PermissionSet": {
+      "DeletionPolicy": "Delete",
       "Properties": {
         "InlinePolicy": {
           "Statement": [
@@ -1415,6 +1460,7 @@ exports[`aws config > identity center stack matches snapshot 1`] = `
         "Name": "developer",
       },
       "Type": "AWS::SSO::PermissionSet",
+      "UpdateReplacePolicy": "Delete",
     },
   },
 }

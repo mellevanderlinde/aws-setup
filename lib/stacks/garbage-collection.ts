@@ -1,6 +1,6 @@
 import type { StackProps } from 'aws-cdk-lib';
 import type { Construct } from 'constructs';
-import { Duration, RemovalPolicy, Stack } from 'aws-cdk-lib';
+import { Duration, Stack } from 'aws-cdk-lib';
 import { BuildSpec, Project } from 'aws-cdk-lib/aws-codebuild';
 import { SnsTopic } from 'aws-cdk-lib/aws-events-targets';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
@@ -22,7 +22,6 @@ export class GarbageCollectionStack extends Stack {
     const logGroup = new LogGroup(this, 'LogGroup', {
       logGroupName: `/aws/codebuild/${projectName}`,
       retention: RetentionDays.ONE_DAY,
-      removalPolicy: RemovalPolicy.DESTROY,
     });
 
     const topic = new Topic(this, 'Topic', {

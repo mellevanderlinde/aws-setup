@@ -1,10 +1,11 @@
-import { App, DefaultStackSynthesizer } from 'aws-cdk-lib';
+import { App, Aspects, DefaultStackSynthesizer } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { BudgetStack } from '../../lib/stacks/budget';
 import { DriftDetectionStack } from '../../lib/stacks/drift-detection';
 import { GarbageCollectionStack } from '../../lib/stacks/garbage-collection';
 import { IdentityCenterStack } from '../../lib/stacks/identity-center';
+import { RemovalPolicyDestroyAspect } from '../../lib/utils/aspects';
 
 describe('aws config', () => {
   const email = 'email@example.com';
@@ -14,6 +15,7 @@ describe('aws config', () => {
     app = new App({
       defaultStackSynthesizer: new DefaultStackSynthesizer({ generateBootstrapVersionRule: false }),
     });
+    Aspects.of(app).add(new RemovalPolicyDestroyAspect());
   });
 
   it('garbage collection stack matches snapshot', () => {

@@ -1,6 +1,6 @@
 import type { StackProps } from 'aws-cdk-lib';
 import type { Construct } from 'constructs';
-import { Duration, RemovalPolicy, Stack } from 'aws-cdk-lib';
+import { Duration, Stack } from 'aws-cdk-lib';
 import { SnsAction } from 'aws-cdk-lib/aws-cloudwatch-actions';
 import { PolicyStatement, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Architecture, LoggingFormat, Runtime, SystemLogLevel } from 'aws-cdk-lib/aws-lambda';
@@ -20,7 +20,6 @@ export class DriftDetectionStack extends Stack {
 
     const logGroup = new LogGroup(this, 'LogGroup', {
       logGroupName: projectName,
-      removalPolicy: RemovalPolicy.DESTROY,
       retention: RetentionDays.TWO_WEEKS,
     });
 
