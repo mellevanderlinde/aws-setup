@@ -2,6 +2,7 @@ import type { Environment } from 'aws-cdk-lib';
 import { App, Aspects } from 'aws-cdk-lib';
 import { AwsSolutionsChecks } from 'cdk-nag';
 import { config } from 'dotenv';
+import { z } from 'zod';
 import { BudgetStack } from '../lib/stacks/budget';
 import { DriftDetectionStack } from '../lib/stacks/drift-detection';
 import { GarbageCollectionStack } from '../lib/stacks/garbage-collection';
@@ -18,7 +19,7 @@ const app = new App();
 
 const stackProps: { env: Environment; email: string } = {
   env: { account: getEnv('ACCOUNT_ID'), region: Region.EU_WEST_1 },
-  email: getEnv('EMAIL'),
+  email: z.email().parse(getEnv('EMAIL')),
 };
 
 new BudgetStack(app, 'BudgetStack', stackProps);

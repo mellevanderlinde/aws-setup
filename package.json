@@ -29,7 +29,8 @@
     "eslint": "^9.34.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.4",
+    "zod": "^4.1.5"
   },
   "release": {
     "branches": [
