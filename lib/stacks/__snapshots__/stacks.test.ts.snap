@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`aws setup > budget stack matches snapshot 1`] = `
+exports[`stacks > budget stack matches snapshot 1`] = `
 {
   "Resources": {
     "Budget": {
@@ -77,7 +77,7 @@ exports[`aws setup > budget stack matches snapshot 1`] = `
 }
 `;
 
-exports[`aws setup > drift detection stack matches snapshot 1`] = `
+exports[`stacks > drift detection stack matches snapshot 1`] = `
 {
   "Resources": {
     "AlarmDetectDrift428D1D25": {
@@ -486,7 +486,7 @@ exports[`aws setup > drift detection stack matches snapshot 1`] = `
 }
 `;
 
-exports[`aws setup > garbage collection stack matches snapshot 1`] = `
+exports[`stacks > garbage collection stack matches snapshot 1`] = `
 {
   "Resources": {
     "LogGroupF5B46931": {
@@ -1167,7 +1167,7 @@ exports[`aws setup > garbage collection stack matches snapshot 1`] = `
 }
 `;
 
-exports[`aws setup > identity center stack matches snapshot 1`] = `
+exports[`stacks > identity center stack matches snapshot 1`] = `
 {
   "Resources": {
     "Assignment": {

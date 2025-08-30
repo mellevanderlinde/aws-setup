@@ -1,7 +1,7 @@
 import { StackDriftStatus } from '@aws-sdk/client-cloudformation';
 import { expect, it, vi } from 'vitest';
-import { handler } from '../../../lib/lambda/drift-detection';
-import * as notify from '../../../lib/lambda/drift-detection/notify';
+import { handler } from './index';
+import * as notify from './notify';
 
 const mocks = vi.hoisted(() => {
   return {
@@ -9,17 +9,17 @@ const mocks = vi.hoisted(() => {
   };
 });
 
-vi.mock('../../../lib/lambda/drift-detection/drift', () => {
+vi.mock('./drift', () => {
   return {
     detectDrift: mocks.detectDrift,
   };
 });
 
-vi.mock('../../../lib/lambda/drift-detection/stacks', () => ({
+vi.mock('./stacks', () => ({
   getStacks: vi.fn().mockResolvedValue(['stack1', 'stack2']),
 }));
 
-vi.mock('../../../lib/lambda/drift-detection/notify', () => ({
+vi.mock('./notify', () => ({
   sendNotification: vi.fn(),
 }));
 

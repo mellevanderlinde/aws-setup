@@ -1,8 +1,8 @@
 import { CloudFormationClient, ListStacksCommand } from '@aws-sdk/client-cloudformation';
 import { mockClient } from 'aws-sdk-client-mock';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { getStacks } from '../../../lib/lambda/drift-detection/stacks';
-import { Region } from '../../../lib/utils/enums';
+import { Region } from '../../utils/enums';
+import { getStacks } from './stacks';
 
 const cloudformationMock = mockClient(CloudFormationClient);
 

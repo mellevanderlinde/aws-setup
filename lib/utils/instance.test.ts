@@ -1,7 +1,7 @@
 import { ListInstancesCommand, SSOAdminClient } from '@aws-sdk/client-sso-admin';
 import { mockClient } from 'aws-sdk-client-mock';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { getInstance } from '../../lib/utils/instance';
+import { getInstance } from './instance';
 
 const ssoAdminMock = mockClient(SSOAdminClient);
 

@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { getEnv } from '../../lib/utils/get-env';
+import { getEnv } from './get-env';
 
 it('should throw an error if the environment variable is missing', () => {
   expect(() => getEnv('EXAMLE')).toThrow(

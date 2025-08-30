@@ -4,7 +4,7 @@ import {
 } from '@aws-sdk/client-identitystore';
 import { mockClient } from 'aws-sdk-client-mock';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { getUserId } from '../../lib/utils/user';
+import { getUserId } from './user';
 
 const identityStoreMock = mockClient(IdentitystoreClient);
 

@@ -1,7 +1,7 @@
 import { PublishCommand, SNSClient } from '@aws-sdk/client-sns';
 import { mockClient } from 'aws-sdk-client-mock';
 import { expect, it, vi } from 'vitest';
-import { sendNotification } from '../../../lib/lambda/drift-detection/notify';
+import { sendNotification } from './notify';
 
 const snsMock = mockClient(SNSClient);
 

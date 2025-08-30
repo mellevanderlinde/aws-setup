@@ -1,8 +1,8 @@
 import { CloudFormationClient, DescribeStackDriftDetectionStatusCommand, DetectStackDriftCommand } from '@aws-sdk/client-cloudformation';
 import { mockClient } from 'aws-sdk-client-mock';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { detectDrift } from '../../../lib/lambda/drift-detection/drift';
-import { Region } from '../../../lib/utils/enums';
+import { Region } from '../../utils/enums';
+import { detectDrift } from './drift';
 
 const cloudformationMock = mockClient(CloudFormationClient);
 

@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { assertDefined } from '../../lib/utils/assert-defined';
+import { assertDefined } from './assert-defined';
 
 it('should return the value if it is defined', () => {
   const value = 'defined';

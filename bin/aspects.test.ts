@@ -2,7 +2,7 @@ import { App, Aspects, Stack } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
 import { beforeEach, describe, it } from 'vitest';
-import { RemovalPolicyDestroyAspect } from '../../lib/utils/aspects';
+import { RemovalPolicyDestroyAspect } from './aspects';
 
 describe('removalPolicyDestroyAspect', () => {
   let app: App;

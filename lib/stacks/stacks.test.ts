@@ -1,13 +1,13 @@
 import { App, Aspects, DefaultStackSynthesizer } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { BudgetStack } from '../../lib/stacks/budget';
-import { DriftDetectionStack } from '../../lib/stacks/drift-detection';
-import { GarbageCollectionStack } from '../../lib/stacks/garbage-collection';
-import { IdentityCenterStack } from '../../lib/stacks/identity-center';
-import { RemovalPolicyDestroyAspect } from '../../lib/utils/aspects';
+import { RemovalPolicyDestroyAspect } from '../../bin/aspects';
+import { BudgetStack } from './budget';
+import { DriftDetectionStack } from './drift-detection';
+import { GarbageCollectionStack } from './garbage-collection';
+import { IdentityCenterStack } from './identity-center';
 
-describe('aws setup', () => {
+describe('stacks', () => {
   const email = 'email@example.com';
   let app: App;
 
