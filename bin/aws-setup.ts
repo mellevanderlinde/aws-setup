@@ -7,11 +7,11 @@ import { BudgetStack } from '../lib/stacks/budget';
 import { DriftDetectionStack } from '../lib/stacks/drift-detection';
 import { GarbageCollectionStack } from '../lib/stacks/garbage-collection';
 import { IdentityCenterStack } from '../lib/stacks/identity-center';
+import { RemovalPolicyDestroyAspect } from '../lib/utils/aspects';
 import { Region } from '../lib/utils/enums';
 import { getEnv } from '../lib/utils/get-env';
 import { getInstance } from '../lib/utils/instance';
 import { getUserId } from '../lib/utils/user';
-import { RemovalPolicyDestroyAspect } from './aspects';
 
 config({ quiet: true });
 

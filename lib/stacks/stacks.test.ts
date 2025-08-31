@@ -1,7 +1,7 @@
 import { App, Aspects, DefaultStackSynthesizer } from 'aws-cdk-lib';
 import { Template } from 'aws-cdk-lib/assertions';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { RemovalPolicyDestroyAspect } from '../../bin/aspects';
+import { RemovalPolicyDestroyAspect } from '../utils/aspects';
 import { BudgetStack } from './budget';
 import { DriftDetectionStack } from './drift-detection';
 import { GarbageCollectionStack } from './garbage-collection';
