@@ -45,4 +45,14 @@ describe('getStacks', () => {
     cloudformationMock.on(ListStacksCommand).resolvesOnce({ NextToken: 'token', StackSummaries: [] });
     await expect(getStacks(Region.EU_WEST_1)).rejects.toThrow('Pagination not supported');
   });
+
+  it('should throw when StackName is undefined', async () => {
+    cloudformationMock
+      .on(ListStacksCommand)
+      .resolvesOnce({ StackSummaries: [
+        { StackName: undefined, CreationTime: new Date(), StackStatus: 'CREATE_COMPLETE' },
+      ] });
+
+    await expect(getStacks(Region.EU_WEST_1)).rejects.toThrow('StackName is undefined');
+  });
 });

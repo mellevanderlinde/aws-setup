@@ -17,8 +17,7 @@ async function checkRegionForDrift(region: Region): Promise<void> {
 
 async function notifyIfDrifted(stackName: string, region: Region): Promise<void> {
   const stackDriftStatus = await detectDrift(stackName, region);
-  if (stackDriftStatus === 'IN_SYNC') {
+  if (stackDriftStatus === 'IN_SYNC')
     return;
-  }
   await sendNotification(`Stack ${stackName} (${region}) has drift status ${stackDriftStatus}`);
 }

@@ -1,5 +1,6 @@
 import type { Region } from '../../utils/enums';
 import { CloudFormationClient, ListStacksCommand, StackStatus } from '@aws-sdk/client-cloudformation';
+import { assertDefined } from '../../utils/assert-defined';
 
 export async function getStacks(region: Region): Promise<string[]> {
   const client = new CloudFormationClient({ region });
@@ -19,5 +20,5 @@ export async function getStacks(region: Region): Promise<string[]> {
   }
   return StackSummaries
     ?.filter(s => s.StackName !== 'CDKToolkit') // Exclude CDKToolkit (managed by CDK) which often shows drift (even right after a fresh bootstrap)
-    .map(s => s.StackName || '') || [];
+    .map(s => assertDefined(s.StackName, 'StackName')) || [];
 }
