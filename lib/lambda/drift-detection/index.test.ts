@@ -16,7 +16,7 @@ vi.mock('./drift', () => {
 });
 
 vi.mock('./stacks', () => ({
-  getStacks: vi.fn().mockResolvedValue(['stack1', 'stack2']),
+  getStacks: vi.fn().mockResolvedValue(['stack1', 'stack2']), // Two stacks per region
 }));
 
 vi.mock('./notify', () => ({

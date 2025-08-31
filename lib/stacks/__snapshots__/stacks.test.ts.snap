@@ -124,7 +124,7 @@ exports[`stacks > drift detection stack matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "fe40267e4b8d5da70c26c032fd7210287086210fc3eec8153bd7c24600c48a04.zip",
+          "S3Key": "3dfbd8507e369b1ba890dc5388848b621d8abf5f6fe3758169ea6ffdf23baa7a.zip",
         },
         "Environment": {
           "Variables": {
@@ -149,7 +149,7 @@ exports[`stacks > drift detection stack matches snapshot 1`] = `
           ],
         },
         "Runtime": "nodejs22.x",
-        "Timeout": 120,
+        "Timeout": 60,
       },
       "Type": "AWS::Lambda::Function",
       "UpdateReplacePolicy": "Delete",
