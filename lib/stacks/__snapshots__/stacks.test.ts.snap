@@ -1170,13 +1170,13 @@ exports[`stacks > garbage collection stack matches snapshot 1`] = `
 exports[`stacks > identity center stack matches snapshot 1`] = `
 {
   "Resources": {
-    "Assignment": {
+    "AdministratorAssignment": {
       "DeletionPolicy": "Delete",
       "Properties": {
         "InstanceArn": "instanceArn",
         "PermissionSetArn": {
           "Fn::GetAtt": [
-            "PermissionSet",
+            "AdministratorPermissionSet",
             "PermissionSetArn",
           ],
         },
@@ -1190,7 +1190,50 @@ exports[`stacks > identity center stack matches snapshot 1`] = `
       "Type": "AWS::SSO::Assignment",
       "UpdateReplacePolicy": "Delete",
     },
-    "PermissionSet": {
+    "AdministratorPermissionSet": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "InlinePolicy": {
+          "Statement": [
+            {
+              "Action": "sso:UpdateSSOConfiguration",
+              "Effect": "Allow",
+              "Resource": "*",
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "InstanceArn": "instanceArn",
+        "ManagedPolicies": [
+          "arn:aws:iam::aws:policy/ReadOnlyAccess",
+        ],
+        "Name": "administrator",
+        "SessionDuration": "PT1H",
+      },
+      "Type": "AWS::SSO::PermissionSet",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "DeveloperAssignment": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "InstanceArn": "instanceArn",
+        "PermissionSetArn": {
+          "Fn::GetAtt": [
+            "DeveloperPermissionSet",
+            "PermissionSetArn",
+          ],
+        },
+        "PrincipalId": "userId",
+        "PrincipalType": "USER",
+        "TargetId": {
+          "Ref": "AWS::AccountId",
+        },
+        "TargetType": "AWS_ACCOUNT",
+      },
+      "Type": "AWS::SSO::Assignment",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "DeveloperPermissionSet": {
       "DeletionPolicy": "Delete",
       "Properties": {
         "InlinePolicy": {

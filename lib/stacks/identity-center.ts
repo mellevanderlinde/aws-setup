@@ -9,27 +9,7 @@ export class IdentityCenterStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps & { instanceArn: string; userId: string }) {
     super(scope, id, props);
 
-    const assumeBootstrapRoles = new PolicyStatement({
-      actions: ['sts:AssumeRole'],
-      resources: ['*'],
-      conditions: {
-        StringEquals: {
-          'iam:ResourceTag/aws-cdk:bootstrap-role': [
-            'image-publishing',
-            'file-publishing',
-            'deploy',
-            'lookup',
-          ],
-        },
-      },
-    });
-
-    const invalidateCloudFrontCache = new PolicyStatement({
-      actions: ['cloudfront:CreateInvalidation'],
-      resources: [`arn:aws:cloudfront::${this.account}:distribution/*`],
-    });
-
-    const permissionSet = new CfnPermissionSet(this, 'PermissionSet', {
+    const developerPermissionSet = new CfnPermissionSet(this, 'DeveloperPermissionSet', {
       instanceArn: props.instanceArn,
       name: 'developer',
       managedPolicies: ['arn:aws:iam::aws:policy/ReadOnlyAccess'],
@@ -37,16 +17,56 @@ export class IdentityCenterStack extends Stack {
         statements: [
           ...this.bootstrapPermissions(Region.EU_WEST_1),
           ...this.bootstrapPermissions(Region.US_EAST_1),
-          assumeBootstrapRoles,
-          invalidateCloudFrontCache,
+          new PolicyStatement({
+            actions: ['sts:AssumeRole'],
+            resources: ['*'],
+            conditions: {
+              StringEquals: {
+                'iam:ResourceTag/aws-cdk:bootstrap-role': [
+                  'image-publishing',
+                  'file-publishing',
+                  'deploy',
+                  'lookup',
+                ],
+              },
+            },
+          }),
+          new PolicyStatement({
+            actions: ['cloudfront:CreateInvalidation'],
+            resources: [`arn:aws:cloudfront::${this.account}:distribution/*`],
+          }),
         ],
       }),
       sessionDuration: 'PT12H', // 12 hours
     });
 
-    new CfnAssignment(this, 'Assignment', {
+    const administratorPermissionSet = new CfnPermissionSet(this, 'AdministratorPermissionSet', {
       instanceArn: props.instanceArn,
-      permissionSetArn: permissionSet.attrPermissionSetArn,
+      name: 'administrator',
+      managedPolicies: ['arn:aws:iam::aws:policy/ReadOnlyAccess'],
+      inlinePolicy: new PolicyDocument({
+        statements: [
+          new PolicyStatement({
+            actions: ['sso:UpdateSSOConfiguration'],
+            resources: ['*'],
+          }),
+        ],
+      }),
+      sessionDuration: 'PT1H', // 1 hour
+    });
+
+    new CfnAssignment(this, 'DeveloperAssignment', {
+      instanceArn: props.instanceArn,
+      permissionSetArn: developerPermissionSet.attrPermissionSetArn,
+      principalId: props.userId,
+      principalType: 'USER',
+      targetType: 'AWS_ACCOUNT',
+      targetId: this.account,
+    });
+
+    new CfnAssignment(this, 'AdministratorAssignment', {
+      instanceArn: props.instanceArn,
+      permissionSetArn: administratorPermissionSet.attrPermissionSetArn,
       principalId: props.userId,
       principalType: 'USER',
       targetType: 'AWS_ACCOUNT',
