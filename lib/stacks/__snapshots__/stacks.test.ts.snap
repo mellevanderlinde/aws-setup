@@ -1459,6 +1459,7 @@ exports[`stacks > identity center stack matches snapshot 1`] = `
           "arn:aws:iam::aws:policy/ReadOnlyAccess",
         ],
         "Name": "developer",
+        "SessionDuration": "PT12H",
       },
       "Type": "AWS::SSO::PermissionSet",
       "UpdateReplacePolicy": "Delete",

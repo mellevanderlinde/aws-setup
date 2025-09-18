@@ -41,6 +41,7 @@ export class IdentityCenterStack extends Stack {
           invalidateCloudFrontCache,
         ],
       }),
+      sessionDuration: 'PT12H', // 12 hours
     });
 
     new CfnAssignment(this, 'Assignment', {
