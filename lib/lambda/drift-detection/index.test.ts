@@ -41,6 +41,6 @@ it('should notify for drifted stacks', async () => {
   await handler({}, vi.fn() as never, vi.fn());
 
   expect(notify.sendNotification).toHaveBeenCalledTimes(2);
-  expect(notify.sendNotification).toHaveBeenNthCalledWith(1, 'Stack stack2 (eu-west-1) has drift status DRIFTED');
-  expect(notify.sendNotification).toHaveBeenNthCalledWith(2, 'Stack stack1 (us-east-1) has drift status NOT_CHECKED');
+  expect(notify.sendNotification).toHaveBeenNthCalledWith(1, 'Stack stack1 (us-east-1) has drift status DRIFTED');
+  expect(notify.sendNotification).toHaveBeenNthCalledWith(2, 'Stack stack2 (eu-west-1) has drift status NOT_CHECKED');
 });

@@ -12,7 +12,7 @@ export const handler: Handler = async (): Promise<void> => {
 
 async function checkRegionForDrift(region: Region): Promise<void> {
   const stacks = await getStacks(region);
-  await Promise.all(stacks.map(stack => notifyIfDrifted(stack, region)));
+  for (const stack of stacks) await notifyIfDrifted(stack, region);
 }
 
 async function notifyIfDrifted(stackName: string, region: Region): Promise<void> {
