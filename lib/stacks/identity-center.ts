@@ -35,6 +35,10 @@ export class IdentityCenterStack extends Stack {
             actions: ['cloudfront:CreateInvalidation'],
             resources: [`arn:aws:cloudfront::${this.account}:distribution/*`],
           }),
+          new PolicyStatement({
+            actions: ['lambda:InvokeFunction'],
+            resources: [`arn:aws:lambda:eu-west-1:${this.account}:function:*`],
+          }),
         ],
       }),
       sessionDuration: 'PT12H', // 12 hours
