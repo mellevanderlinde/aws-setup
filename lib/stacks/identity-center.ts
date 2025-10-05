@@ -39,6 +39,10 @@ export class IdentityCenterStack extends Stack {
             actions: ['lambda:InvokeFunction'],
             resources: [`arn:aws:lambda:eu-west-1:${this.account}:function:*`],
           }),
+          new PolicyStatement({
+            actions: ['airflow:GetEnvironment'],
+            resources: [`arn:aws:airflow:eu-west-1:${this.account}:environment/*`],
+          }),
         ],
       }),
       sessionDuration: 'PT12H', // 12 hours
