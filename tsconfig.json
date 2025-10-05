@@ -2,6 +2,11 @@
   "compilerOptions": {
     "target": "ES2023",
     "module": "commonjs",
+    "paths": {
+      // workaround for: https://github.com/vitest-dev/vitest/issues/4567
+      // notice that we'll need to update this when newer versions of vitest are used
+      "rollup/parseAst": ["./node_modules/.pnpm/rollup@4.49.0/node_modules/rollup/dist/parseAst"]
+    },
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
@@ -14,7 +19,6 @@
     "noUnusedParameters": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "forceConsistentCasingInFileNames": true
   }
 }
