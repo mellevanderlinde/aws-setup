@@ -43,6 +43,10 @@ export class IdentityCenterStack extends Stack {
             actions: ['airflow:GetEnvironment'],
             resources: [`arn:aws:airflow:eu-west-1:${this.account}:environment/*`],
           }),
+          new PolicyStatement({
+            actions: ['airflow:CreateWebLoginToken'],
+            resources: [`arn:aws:airflow:eu-west-1:${this.account}:role/*`],
+          }),
         ],
       }),
       sessionDuration: 'PT12H', // 12 hours
