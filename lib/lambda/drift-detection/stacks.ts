@@ -1,4 +1,4 @@
-import type { Region } from '../../utils/enums';
+import type { Region } from '../../utils/types';
 import { CloudFormationClient, ListStacksCommand, StackStatus } from '@aws-sdk/client-cloudformation';
 import { assertDefined } from '../../utils/assert-defined';
 

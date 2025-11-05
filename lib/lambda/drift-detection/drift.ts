@@ -1,5 +1,5 @@
 import type { StackDriftStatus } from '@aws-sdk/client-cloudformation';
-import type { Region } from '../../utils/enums';
+import type { Region } from '../../utils/types';
 import { setTimeout } from 'node:timers/promises';
 import { CloudFormationClient, DescribeStackDriftDetectionStatusCommand, DetectStackDriftCommand } from '@aws-sdk/client-cloudformation';
 import { assertDefined } from '../../utils/assert-defined';

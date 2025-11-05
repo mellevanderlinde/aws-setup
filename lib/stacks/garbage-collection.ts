@@ -1,5 +1,6 @@
 import type { StackProps } from 'aws-cdk-lib';
 import type { Construct } from 'constructs';
+import type { Region } from '../utils/types';
 import { Duration, Stack } from 'aws-cdk-lib';
 import { BuildSpec, Project } from 'aws-cdk-lib/aws-codebuild';
 import { SnsTopic } from 'aws-cdk-lib/aws-events-targets';
@@ -11,9 +12,10 @@ import { CodeBuildStartBuild } from 'aws-cdk-lib/aws-scheduler-targets';
 import { Topic } from 'aws-cdk-lib/aws-sns';
 import { EmailSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';
 import { NagSuppressions } from 'cdk-nag';
-import { Region } from '../utils/enums';
 
 const projectName = 'garbage-collection';
+
+const regions: Region[] = ['eu-west-1', 'us-east-1'];
 
 export class GarbageCollectionStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps & { email: string }) {
@@ -40,10 +42,7 @@ export class GarbageCollectionStack extends Stack {
             commands: ['npm install -g aws-cdk'],
           },
           build: {
-            commands: [
-              Region.EU_WEST_1,
-              Region.US_EAST_1,
-            ].map(region => `cdk gc aws://${this.account}/${region} --unstable=gc --confirm=false --created-buffer-days=0`),
+            commands: regions.map(region => `cdk gc aws://${this.account}/${region} --unstable=gc --confirm=false --created-buffer-days=0`),
           },
         },
       }),
@@ -57,8 +56,8 @@ export class GarbageCollectionStack extends Stack {
       reason: 'AWS managed encryption is sufficient',
     }]);
 
-    this.addPolicyStatements(project, Region.EU_WEST_1);
-    this.addPolicyStatements(project, Region.US_EAST_1);
+    this.addPolicyStatements(project, 'eu-west-1');
+    this.addPolicyStatements(project, 'us-east-1');
 
     project.onBuildFailed('BuildFailed', {
       target: new SnsTopic(topic),

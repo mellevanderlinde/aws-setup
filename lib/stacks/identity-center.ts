@@ -1,9 +1,9 @@
 import type { StackProps } from 'aws-cdk-lib';
 import type { Construct } from 'constructs';
+import type { Region } from '../utils/types';
 import { Stack } from 'aws-cdk-lib';
 import { PolicyDocument, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { CfnAssignment, CfnPermissionSet } from 'aws-cdk-lib/aws-sso';
-import { Region } from '../utils/enums';
 
 export class IdentityCenterStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps & { instanceArn: string; userId: string }) {
@@ -15,8 +15,8 @@ export class IdentityCenterStack extends Stack {
       managedPolicies: ['arn:aws:iam::aws:policy/ReadOnlyAccess'],
       inlinePolicy: new PolicyDocument({
         statements: [
-          ...this.bootstrapPermissions(Region.EU_WEST_1),
-          ...this.bootstrapPermissions(Region.US_EAST_1),
+          ...this.bootstrapPermissions('eu-west-1'),
+          ...this.bootstrapPermissions('us-east-1'),
           new PolicyStatement({
             actions: ['sts:AssumeRole'],
             resources: ['*'],

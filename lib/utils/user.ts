@@ -1,7 +1,7 @@
 import { GetUserIdCommand, IdentitystoreClient } from '@aws-sdk/client-identitystore';
 import { assertDefined } from './assert-defined';
 
-const client = new IdentitystoreClient();
+const client = new IdentitystoreClient({ region: 'eu-west-1' });
 
 export async function getUserId(props: {
   username: string;

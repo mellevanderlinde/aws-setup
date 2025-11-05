@@ -8,7 +8,6 @@ import { DriftDetectionStack } from '../lib/stacks/drift-detection';
 import { GarbageCollectionStack } from '../lib/stacks/garbage-collection';
 import { IdentityCenterStack } from '../lib/stacks/identity-center';
 import { RemovalPolicyDestroyAspect } from '../lib/utils/aspects';
-import { Region } from '../lib/utils/enums';
 import { getEnv } from '../lib/utils/get-env';
 import { getInstance } from '../lib/utils/instance';
 import { getUserId } from '../lib/utils/user';
@@ -18,7 +17,7 @@ config({ quiet: true });
 const app = new App();
 
 const stackProps: { env: Environment; email: string } = {
-  env: { account: getEnv('ACCOUNT_ID'), region: Region.EU_WEST_1 },
+  env: { account: getEnv('ACCOUNT_ID'), region: 'eu-west-1' },
   email: z.email().parse(getEnv('EMAIL')),
 };
 

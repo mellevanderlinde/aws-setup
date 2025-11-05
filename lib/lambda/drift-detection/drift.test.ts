@@ -1,7 +1,6 @@
 import { CloudFormationClient, DescribeStackDriftDetectionStatusCommand, DetectStackDriftCommand } from '@aws-sdk/client-cloudformation';
 import { mockClient } from 'aws-sdk-client-mock';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { Region } from '../../utils/enums';
 import { detectDrift } from './drift';
 
 const cloudformationMock = mockClient(CloudFormationClient);
@@ -25,7 +24,7 @@ describe ('detectDrift', () => {
       .resolvesOnce({ DetectionStatus: 'DETECTION_IN_PROGRESS' })
       .resolvesOnce({ DetectionStatus: 'DETECTION_COMPLETE', StackDriftStatus: 'DRIFTED' });
 
-    const result = await detectDrift('test-stack', Region.US_EAST_1);
+    const result = await detectDrift('test-stack', 'us-east-1');
     expect(result).toBe('DRIFTED');
   });
 
@@ -38,7 +37,7 @@ describe ('detectDrift', () => {
       .resolvesOnce({ DetectionStatus: 'DETECTION_IN_PROGRESS' })
       .resolvesOnce({ DetectionStatus: 'DETECTION_COMPLETE', StackDriftStatus: 'IN_SYNC' });
 
-    const result = await detectDrift('test-stack', Region.US_EAST_1);
+    const result = await detectDrift('test-stack', 'us-east-1');
     expect(result).toBe('IN_SYNC');
   });
 
@@ -51,7 +50,7 @@ describe ('detectDrift', () => {
       .resolvesOnce({ DetectionStatus: 'DETECTION_IN_PROGRESS' })
       .resolvesOnce({ DetectionStatus: 'DETECTION_COMPLETE', StackDriftStatus: undefined });
 
-    const result = await detectDrift('test-stack', Region.US_EAST_1);
+    const result = await detectDrift('test-stack', 'us-east-1');
     expect(result).toBe('UNKNOWN');
   });
 });
