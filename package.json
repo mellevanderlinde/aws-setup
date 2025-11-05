@@ -11,26 +11,26 @@
     "test:update": "vitest run -u"
   },
   "dependencies": {
-    "@aws-sdk/client-cloudformation": "^3.879.0",
-    "@aws-sdk/client-identitystore": "^3.879.0",
-    "@aws-sdk/client-sns": "^3.879.0",
-    "@aws-sdk/client-sso-admin": "^3.879.0",
-    "aws-cdk-lib": "^2.213.0"
+    "@aws-sdk/client-cloudformation": "^3.922.0",
+    "@aws-sdk/client-identitystore": "^3.922.0",
+    "@aws-sdk/client-sns": "^3.922.0",
+    "@aws-sdk/client-sso-admin": "^3.922.0",
+    "aws-cdk-lib": "^2.222.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^5.2.1",
-    "@types/aws-lambda": "^8.10.152",
-    "@types/node": "^24.3.0",
+    "@antfu/eslint-config": "^6.2.0",
+    "@types/aws-lambda": "^8.10.157",
+    "@types/node": "^24.10.0",
     "aws-sdk-client-mock": "^4.1.0",
-    "cdk-nag": "^2.37.12",
+    "cdk-nag": "^2.37.55",
     "constructs": "^10.4.2",
-    "dotenv": "^17.2.1",
-    "esbuild": "^0.25.9",
-    "eslint": "^9.34.0",
+    "dotenv": "^17.2.3",
+    "esbuild": "^0.25.12",
+    "eslint": "^9.39.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
     "vitest": "^3.2.4",
-    "zod": "^4.1.5"
+    "zod": "^4.1.12"
   },
   "release": {
     "branches": [
