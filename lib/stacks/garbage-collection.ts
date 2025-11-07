@@ -11,7 +11,6 @@ import { Schedule, ScheduleExpression } from 'aws-cdk-lib/aws-scheduler';
 import { CodeBuildStartBuild } from 'aws-cdk-lib/aws-scheduler-targets';
 import { Topic } from 'aws-cdk-lib/aws-sns';
 import { EmailSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';
-import { NagSuppressions } from 'cdk-nag';
 
 const projectName = 'garbage-collection';
 
@@ -51,11 +50,6 @@ export class GarbageCollectionStack extends Stack {
       concurrentBuildLimit: 1,
     });
 
-    NagSuppressions.addResourceSuppressions(project, [{
-      id: 'AwsSolutions-CB4',
-      reason: 'AWS managed encryption is sufficient',
-    }]);
-
     this.addPolicyStatements(project, 'eu-west-1');
     this.addPolicyStatements(project, 'us-east-1');
 
@@ -71,6 +65,9 @@ export class GarbageCollectionStack extends Stack {
   }
 
   private addPolicyStatements(project: Project, region: Region): void {
+    const bucket = Bucket.fromBucketName(this, `Bucket-${region}`, `cdk-hnb659fds-assets-${this.account}-${region}`);
+    bucket.grantReadWrite(project);
+
     project.addToRolePolicy(
       new PolicyStatement({
         actions: ['cloudformation:DescribeStacks'],
@@ -85,19 +82,11 @@ export class GarbageCollectionStack extends Stack {
       }),
     );
 
-    const bucket = Bucket.fromBucketName(this, `Bucket-${region}`, `cdk-hnb659fds-assets-${this.account}-${region}`);
-    bucket.grantReadWrite(project);
-
     project.addToRolePolicy(
       new PolicyStatement({
         actions: ['ecr:ListImages', 'ecr:DescribeImages', 'ecr:BatchGetImage', 'ecr:BatchDeleteImage'],
         resources: [`arn:aws:ecr:${region}:${this.account}:repository/cdk-hnb659fds-container-assets-${this.account}-${region}`],
       }),
     );
-
-    NagSuppressions.addResourceSuppressions(project.role!, [{
-      id: 'AwsSolutions-IAM5',
-      reason: 'The project needs to access CloudFormation, S3 and ECR resources',
-    }], true);
   }
 }

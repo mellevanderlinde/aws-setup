@@ -12,9 +12,8 @@ describe('stacks', () => {
   let app: App;
 
   beforeEach(() => {
-    app = new App({
-      defaultStackSynthesizer: new DefaultStackSynthesizer({ generateBootstrapVersionRule: false }),
-    });
+    const defaultStackSynthesizer = new DefaultStackSynthesizer({ generateBootstrapVersionRule: false });
+    app = new App({ defaultStackSynthesizer });
     Aspects.of(app).add(new RemovalPolicyDestroyAspect());
   });
 

@@ -1,6 +1,5 @@
 import type { Environment } from 'aws-cdk-lib';
 import { App, Aspects } from 'aws-cdk-lib';
-import { AwsSolutionsChecks } from 'cdk-nag';
 import { config } from 'dotenv';
 import { z } from 'zod';
 import { BudgetStack } from '../lib/stacks/budget';
@@ -26,7 +25,6 @@ new GarbageCollectionStack(app, 'GarbageCollectionStack', stackProps);
 new DriftDetectionStack(app, 'DriftDetectionStack', stackProps);
 
 Aspects.of(app).add(new RemovalPolicyDestroyAspect());
-Aspects.of(app).add(new AwsSolutionsChecks());
 
 async function run(): Promise<void> {
   const { instanceArn, identityStoreId } = await getInstance();

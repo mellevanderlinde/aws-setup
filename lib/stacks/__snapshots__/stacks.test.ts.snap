@@ -124,7 +124,7 @@ exports[`stacks > drift detection stack matches snapshot 1`] = `
           "S3Bucket": {
             "Fn::Sub": "cdk-hnb659fds-assets-\${AWS::AccountId}-\${AWS::Region}",
           },
-          "S3Key": "b62e4868f6fb7efc5840d11218ebed508f19766836c5ea2f625a5cb440a1f013.zip",
+          "S3Key": "dd2e07d42291398e6448656c21647592a6011cf28d7ef46f54ff5aa60e72c827.zip",
         },
         "Environment": {
           "Variables": {
@@ -156,20 +156,6 @@ exports[`stacks > drift detection stack matches snapshot 1`] = `
     },
     "DetectDriftServiceRole0271A5CB": {
       "DeletionPolicy": "Delete",
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM4",
-              "reason": "Basic execution role is allowed",
-            },
-            {
-              "id": "AwsSolutions-IAM5",
-              "reason": "Wildcards are required",
-            },
-          ],
-        },
-      },
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -203,20 +189,6 @@ exports[`stacks > drift detection stack matches snapshot 1`] = `
     },
     "DetectDriftServiceRoleDefaultPolicy90C8D37A": {
       "DeletionPolicy": "Delete",
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM4",
-              "reason": "Basic execution role is allowed",
-            },
-            {
-              "id": "AwsSolutions-IAM5",
-              "reason": "Wildcards are required",
-            },
-          ],
-        },
-      },
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -368,16 +340,6 @@ exports[`stacks > drift detection stack matches snapshot 1`] = `
     },
     "SchedulerRoleForTargetbb28f2DefaultPolicy00EE2220": {
       "DeletionPolicy": "Delete",
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM5",
-              "reason": "Wildcards are required",
-            },
-          ],
-        },
-      },
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -534,16 +496,6 @@ exports[`stacks > garbage collection stack matches snapshot 1`] = `
     },
     "ProjectC78D97AD": {
       "DeletionPolicy": "Delete",
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-CB4",
-              "reason": "AWS managed encryption is sufficient",
-            },
-          ],
-        },
-      },
       "Properties": {
         "Artifacts": {
           "Type": "NO_ARTIFACTS",
@@ -616,16 +568,6 @@ exports[`stacks > garbage collection stack matches snapshot 1`] = `
     },
     "ProjectRole4CCB274E": {
       "DeletionPolicy": "Delete",
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM5",
-              "reason": "The project needs to access CloudFormation, S3 and ECR resources",
-            },
-          ],
-        },
-      },
       "Properties": {
         "AssumeRolePolicyDocument": {
           "Statement": [
@@ -645,16 +587,6 @@ exports[`stacks > garbage collection stack matches snapshot 1`] = `
     },
     "ProjectRoleDefaultPolicy7F29461B": {
       "DeletionPolicy": "Delete",
-      "Metadata": {
-        "cdk_nag": {
-          "rules_to_suppress": [
-            {
-              "id": "AwsSolutions-IAM5",
-              "reason": "The project needs to access CloudFormation, S3 and ECR resources",
-            },
-          ],
-        },
-      },
       "Properties": {
         "PolicyDocument": {
           "Statement": [
@@ -763,42 +695,6 @@ exports[`stacks > garbage collection stack matches snapshot 1`] = `
               },
             },
             {
-              "Action": "cloudformation:DescribeStacks",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:aws:cloudformation:eu-west-1:",
-                    {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":stack/CDKToolkit/*",
-                  ],
-                ],
-              },
-            },
-            {
-              "Action": [
-                "cloudformation:ListStacks",
-                "cloudformation:GetTemplateSummary",
-                "cloudformation:GetTemplate",
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:aws:cloudformation:eu-west-1:",
-                    {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":stack/*/*",
-                  ],
-                ],
-              },
-            },
-            {
               "Action": [
                 "s3:GetObject*",
                 "s3:GetBucket*",
@@ -848,6 +744,42 @@ exports[`stacks > garbage collection stack matches snapshot 1`] = `
               ],
             },
             {
+              "Action": "cloudformation:DescribeStacks",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:cloudformation:eu-west-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":stack/CDKToolkit/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "cloudformation:ListStacks",
+                "cloudformation:GetTemplateSummary",
+                "cloudformation:GetTemplate",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:cloudformation:eu-west-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":stack/*/*",
+                  ],
+                ],
+              },
+            },
+            {
               "Action": [
                 "ecr:ListImages",
                 "ecr:DescribeImages",
@@ -868,42 +800,6 @@ exports[`stacks > garbage collection stack matches snapshot 1`] = `
                       "Ref": "AWS::AccountId",
                     },
                     "-eu-west-1",
-                  ],
-                ],
-              },
-            },
-            {
-              "Action": "cloudformation:DescribeStacks",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:aws:cloudformation:us-east-1:",
-                    {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":stack/CDKToolkit/*",
-                  ],
-                ],
-              },
-            },
-            {
-              "Action": [
-                "cloudformation:ListStacks",
-                "cloudformation:GetTemplateSummary",
-                "cloudformation:GetTemplate",
-              ],
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:aws:cloudformation:us-east-1:",
-                    {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":stack/*/*",
                   ],
                 ],
               },
@@ -956,6 +852,42 @@ exports[`stacks > garbage collection stack matches snapshot 1`] = `
                   ],
                 },
               ],
+            },
+            {
+              "Action": "cloudformation:DescribeStacks",
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:cloudformation:us-east-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":stack/CDKToolkit/*",
+                  ],
+                ],
+              },
+            },
+            {
+              "Action": [
+                "cloudformation:ListStacks",
+                "cloudformation:GetTemplateSummary",
+                "cloudformation:GetTemplate",
+              ],
+              "Effect": "Allow",
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:aws:cloudformation:us-east-1:",
+                    {
+                      "Ref": "AWS::AccountId",
+                    },
+                    ":stack/*/*",
+                  ],
+                ],
+              },
             },
             {
               "Action": [

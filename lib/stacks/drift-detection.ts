@@ -10,7 +10,6 @@ import { Schedule, ScheduleExpression } from 'aws-cdk-lib/aws-scheduler';
 import { LambdaInvoke } from 'aws-cdk-lib/aws-scheduler-targets';
 import { Topic } from 'aws-cdk-lib/aws-sns';
 import { EmailSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';
-import { NagSuppressions } from 'cdk-nag';
 
 const projectName = 'drift-detection';
 
@@ -63,14 +62,6 @@ export class DriftDetectionStack extends Stack {
       resources: ['*'],
     }));
 
-    NagSuppressions.addResourceSuppressions(handler.role!, [{
-      id: 'AwsSolutions-IAM4',
-      reason: 'Basic execution role is allowed',
-    }, {
-      id: 'AwsSolutions-IAM5',
-      reason: 'Wildcards are required',
-    }], true);
-
     handler.metricErrors().createAlarm(this, `Alarm${handler.node.id}`, {
       alarmName: handler.functionName,
       threshold: 1,
@@ -82,10 +73,5 @@ export class DriftDetectionStack extends Stack {
       schedule: ScheduleExpression.rate(Duration.days(1)),
       target: new LambdaInvoke(handler),
     });
-
-    NagSuppressions.addResourceSuppressionsByPath(this, '/DriftDetectionStack/SchedulerRoleForTarget-bb28f2/DefaultPolicy/Resource', [{
-      id: 'AwsSolutions-IAM5',
-      reason: 'Wildcards are required',
-    }]);
   }
 }
