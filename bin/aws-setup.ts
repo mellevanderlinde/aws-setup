@@ -13,23 +13,27 @@ import { getUserId } from '../lib/utils/user';
 
 config({ quiet: true });
 
+const account = getEnv('ACCOUNT_ID');
+const username = getEnv('USERNAME');
+const email = getEnv('EMAIL');
+
 const app = new App();
 
 const stackProps: { env: Environment; email: string } = {
-  env: { account: getEnv('ACCOUNT_ID'), region: 'eu-west-1' },
-  email: z.email().parse(getEnv('EMAIL')),
+  env: { account, region: 'eu-west-1' },
+  email: z.email().parse(email),
 };
-
-new BudgetStack(app, 'BudgetStack', stackProps);
-new GarbageCollectionStack(app, 'GarbageCollectionStack', stackProps);
-new DriftDetectionStack(app, 'DriftDetectionStack', stackProps);
 
 Aspects.of(app).add(new RemovalPolicyDestroyAspect());
 
 async function run(): Promise<void> {
   const { instanceArn, identityStoreId } = await getInstance();
-  const userId = await getUserId({ username: getEnv('USERNAME'), identityStoreId });
+  const userId = await getUserId({ username, identityStoreId });
+
   new IdentityCenterStack(app, 'IdentityCenterStack', { instanceArn, userId, ...stackProps });
+  new BudgetStack(app, 'BudgetStack', stackProps);
+  new GarbageCollectionStack(app, 'GarbageCollectionStack', stackProps);
+  new DriftDetectionStack(app, 'DriftDetectionStack', stackProps);
 }
 
 run();
