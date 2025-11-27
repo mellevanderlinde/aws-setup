@@ -33,7 +33,7 @@ export class DriftDetectionStack extends Stack {
     const handler = new NodejsFunction(this, 'DetectDrift', {
       functionName: projectName,
       entry: 'lib/lambda/drift-detection/index.ts',
-      runtime: Runtime.NODEJS_22_X,
+      runtime: Runtime.NODEJS_24_X,
       logGroup,
       bundling: { minify: true },
       architecture: Architecture.ARM_64,
