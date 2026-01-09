@@ -1442,38 +1442,6 @@ exports[`stacks > identity center stack matches snapshot 1`] = `
                 ],
               },
             },
-            {
-              "Action": "airflow:GetEnvironment",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:aws:airflow:eu-west-1:",
-                    {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":environment/*",
-                  ],
-                ],
-              },
-            },
-            {
-              "Action": "airflow:CreateWebLoginToken",
-              "Effect": "Allow",
-              "Resource": {
-                "Fn::Join": [
-                  "",
-                  [
-                    "arn:aws:airflow:eu-west-1:",
-                    {
-                      "Ref": "AWS::AccountId",
-                    },
-                    ":role/*",
-                  ],
-                ],
-              },
-            },
           ],
           "Version": "2012-10-17",
         },
