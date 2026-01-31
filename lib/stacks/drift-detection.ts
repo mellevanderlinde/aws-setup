@@ -1,3 +1,4 @@
+import * as path from 'node:path';
 import { Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { SnsAction } from 'aws-cdk-lib/aws-cloudwatch-actions';
 import { PolicyStatement, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
@@ -31,7 +32,7 @@ export class DriftDetectionStack extends Stack {
 
     const handler = new NodejsFunction(this, 'DetectDrift', {
       functionName: projectName,
-      entry: 'lib/lambda/drift-detection/index.ts',
+      entry: path.join(__dirname, '..', 'lambda', 'drift-detection', 'index.ts'),
       runtime: Runtime.NODEJS_24_X,
       logGroup,
       bundling: { minify: true },
