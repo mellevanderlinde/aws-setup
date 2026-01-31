@@ -1,9 +1,8 @@
-import type { StackProps } from 'aws-cdk-lib';
-import type { Construct } from 'constructs';
-import type { Region } from '../utils/types';
-import { Stack } from 'aws-cdk-lib';
+import { Stack, StackProps } from 'aws-cdk-lib';
 import { PolicyDocument, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { CfnAssignment, CfnPermissionSet } from 'aws-cdk-lib/aws-sso';
+import { Construct } from 'constructs';
+import { Region } from '../utils/types';
 
 export class IdentityCenterStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps & { instanceArn: string; userId: string }) {

@@ -1,7 +1,4 @@
-import type { StackProps } from 'aws-cdk-lib';
-import type { Construct } from 'constructs';
-import type { Region } from '../utils/types';
-import { Duration, Stack } from 'aws-cdk-lib';
+import { Duration, Stack, StackProps } from 'aws-cdk-lib';
 import { BuildSpec, Project } from 'aws-cdk-lib/aws-codebuild';
 import { SnsTopic } from 'aws-cdk-lib/aws-events-targets';
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam';
@@ -11,6 +8,8 @@ import { Schedule, ScheduleExpression } from 'aws-cdk-lib/aws-scheduler';
 import { CodeBuildStartBuild } from 'aws-cdk-lib/aws-scheduler-targets';
 import { Topic } from 'aws-cdk-lib/aws-sns';
 import { EmailSubscription } from 'aws-cdk-lib/aws-sns-subscriptions';
+import { Construct } from 'constructs';
+import { Region } from '../utils/types';
 
 const projectName = 'garbage-collection';
 

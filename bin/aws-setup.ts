@@ -1,5 +1,4 @@
-import type { Environment } from 'aws-cdk-lib';
-import { App, Aspects } from 'aws-cdk-lib';
+import { App, Aspects, Environment } from 'aws-cdk-lib';
 import { config } from 'dotenv';
 import { z } from 'zod';
 import { BudgetStack } from '../lib/stacks/budget';

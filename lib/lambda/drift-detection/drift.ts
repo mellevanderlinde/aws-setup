@@ -1,8 +1,7 @@
-import type { StackDriftStatus } from '@aws-sdk/client-cloudformation';
-import type { Region } from '../../utils/types';
 import { setTimeout } from 'node:timers/promises';
-import { CloudFormationClient, DescribeStackDriftDetectionStatusCommand, DetectStackDriftCommand } from '@aws-sdk/client-cloudformation';
+import { CloudFormationClient, DescribeStackDriftDetectionStatusCommand, DetectStackDriftCommand, StackDriftStatus } from '@aws-sdk/client-cloudformation';
 import { assertDefined } from '../../utils/assert-defined';
+import { Region } from '../../utils/types';
 
 export async function detectDrift(stackName: string, region: Region): Promise<StackDriftStatus> {
   const client = new CloudFormationClient({ region });
@@ -19,8 +18,9 @@ async function pollUntilComplete(client: CloudFormationClient, detectionId: stri
     const { DetectionStatus, StackDriftStatus } = await client.send(describeCommand);
 
     const stillDetecting = DetectionStatus === 'DETECTION_IN_PROGRESS';
-    if (stillDetecting)
+    if (stillDetecting) {
       continue;
+    }
 
     return StackDriftStatus || 'UNKNOWN';
   }

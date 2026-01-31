@@ -1,7 +1,6 @@
-import type { StackProps } from 'aws-cdk-lib';
-import type { Construct } from 'constructs';
-import { Stack } from 'aws-cdk-lib';
+import { Stack, StackProps } from 'aws-cdk-lib';
 import { CfnBudget } from 'aws-cdk-lib/aws-budgets';
+import { Construct } from 'constructs';
 
 export class BudgetStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps & { email: string }) {

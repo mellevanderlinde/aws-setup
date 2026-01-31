@@ -1,6 +1,5 @@
-import type { IAspect } from 'aws-cdk-lib';
-import type { IConstruct } from 'constructs';
-import { CfnResource, RemovalPolicy } from 'aws-cdk-lib';
+import { CfnResource, IAspect, RemovalPolicy } from 'aws-cdk-lib';
+import { IConstruct } from 'constructs';
 
 export class RemovalPolicyDestroyAspect implements IAspect {
   visit(node: IConstruct): void {

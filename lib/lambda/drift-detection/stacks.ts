@@ -1,6 +1,6 @@
-import type { Region } from '../../utils/types';
 import { CloudFormationClient, ListStacksCommand, StackStatus } from '@aws-sdk/client-cloudformation';
 import { assertDefined } from '../../utils/assert-defined';
+import { Region } from '../../utils/types';
 
 export async function getStacks(region: Region): Promise<string[]> {
   const client = new CloudFormationClient({ region });
