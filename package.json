@@ -5,7 +5,7 @@
   "scripts": {
     "bootstrap": "source .env && cdk bootstrap aws://$ACCOUNT_ID/eu-west-1 && cdk bootstrap aws://$ACCOUNT_ID/us-east-1",
     "build": "tsc",
-    "ci": "npm run lint && npm run build && npm run test",
+    "ci": "pnpm run '/^(build|lint|test)$/'",
     "lint": "eslint",
     "test": "vitest run",
     "test:update": "vitest run -u"
