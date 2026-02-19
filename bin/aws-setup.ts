@@ -1,4 +1,4 @@
-import { App, Aspects, Environment } from 'aws-cdk-lib';
+import { App, Aspects } from 'aws-cdk-lib';
 import { config } from 'dotenv';
 import { z } from 'zod';
 import { BudgetStack } from '../lib/stacks/budget';
@@ -12,22 +12,18 @@ import { getUserId } from '../lib/utils/user';
 
 config({ quiet: true });
 
-const account = getEnv('ACCOUNT_ID');
-const username = getEnv('USERNAME');
-const email = getEnv('EMAIL');
-
 const app = new App();
 
-const stackProps: { env: Environment; email: string } = {
-  env: { account, region: 'eu-west-1' },
-  email: z.email().parse(email),
+const stackProps = {
+  env: { account: getEnv('ACCOUNT_ID'), region: 'eu-west-1' },
+  email: z.email().parse(getEnv('EMAIL')),
 };
 
 Aspects.of(app).add(new RemovalPolicyDestroyAspect());
 
 async function run(): Promise<void> {
   const { instanceArn, identityStoreId } = await getInstance();
-  const userId = await getUserId({ username, identityStoreId });
+  const userId = await getUserId({ username: getEnv('USERNAME'), identityStoreId });
 
   new IdentityCenterStack(app, 'IdentityCenterStack', { instanceArn, userId, ...stackProps });
   new BudgetStack(app, 'BudgetStack', stackProps);
