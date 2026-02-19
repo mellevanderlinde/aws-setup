@@ -20,7 +20,7 @@ vi.mock('./stacks', () => ({
 }));
 
 vi.mock('./notify', () => ({
-  sendNotification: vi.fn(),
+  notify: vi.fn(),
 }));
 
 it('should not notify if all stacks are in sync', async () => {
@@ -28,7 +28,7 @@ it('should not notify if all stacks are in sync', async () => {
 
   await handler({}, vi.fn() as never, vi.fn());
 
-  expect(notify.sendNotification).not.toHaveBeenCalled();
+  expect(notify.notify).not.toHaveBeenCalled();
 });
 
 it('should notify for drifted stacks', async () => {
@@ -40,7 +40,7 @@ it('should notify for drifted stacks', async () => {
 
   await handler({}, vi.fn() as never, vi.fn());
 
-  expect(notify.sendNotification).toHaveBeenCalledTimes(2);
-  expect(notify.sendNotification).toHaveBeenNthCalledWith(1, 'Stack stack1 (us-east-1) has drift status DRIFTED');
-  expect(notify.sendNotification).toHaveBeenNthCalledWith(2, 'Stack stack2 (eu-west-1) has drift status NOT_CHECKED');
+  expect(notify.notify).toHaveBeenCalledTimes(2);
+  expect(notify.notify).toHaveBeenNthCalledWith(1, 'Stack stack1 (us-east-1) has drift status DRIFTED');
+  expect(notify.notify).toHaveBeenNthCalledWith(2, 'Stack stack2 (eu-west-1) has drift status NOT_CHECKED');
 });

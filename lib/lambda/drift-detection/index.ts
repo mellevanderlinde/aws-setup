@@ -1,7 +1,7 @@
 import { Handler } from 'aws-lambda';
 import { Region } from '../../utils/types';
 import { detectDrift } from './drift';
-import { sendNotification } from './notify';
+import { notify } from './notify';
 import { getStacks } from './stacks';
 
 const regions: Region[] = ['eu-west-1', 'us-east-1'];
@@ -22,5 +22,5 @@ async function notifyIfDrifted(stackName: string, region: Region): Promise<void>
   if (stackDriftStatus === 'IN_SYNC') {
     return;
   }
-  await sendNotification(`Stack ${stackName} (${region}) has drift status ${stackDriftStatus}`);
+  await notify(`Stack ${stackName} (${region}) has drift status ${stackDriftStatus}`);
 }

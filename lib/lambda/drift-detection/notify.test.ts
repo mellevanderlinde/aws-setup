@@ -1,7 +1,7 @@
 import { PublishCommand, SNSClient } from '@aws-sdk/client-sns';
 import { mockClient } from 'aws-sdk-client-mock';
 import { expect, it, vi } from 'vitest';
-import { sendNotification } from './notify';
+import { notify } from './notify';
 
 const snsMock = mockClient(SNSClient);
 
@@ -12,7 +12,7 @@ vi.mock('../../utils/get-env', () => ({
 it('publishes a notification', async () => {
   snsMock.on(PublishCommand).resolvesOnce({});
 
-  const result = await sendNotification('Test message');
+  const result = await notify('Test message');
 
   expect(result).toBeUndefined();
   expect(snsMock.calls()).toHaveLength(1);
