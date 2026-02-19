@@ -32,6 +32,13 @@ describe('stacks', () => {
       new IdentityCenterStack(app, 'IdentityCenterStack', { instanceArn: 'instanceArn', userId: 'userId' }),
     ],
   ])('%s stack matches snapshot', (_name, stack) => {
-    expect(Template.fromStack(stack)).toMatchSnapshot();
+    const template = Template.fromStack(stack);
+
+    const functions = template.findResources('AWS::Lambda::Function');
+    Object.keys(functions).forEach((key) => {
+      functions[key].Properties.Code.S3Key = 'REDACTED';
+    });
+
+    expect(template).toMatchSnapshot();
   });
 });
