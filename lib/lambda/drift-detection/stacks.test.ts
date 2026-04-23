@@ -1,57 +1,61 @@
-import { CloudFormationClient, ListStacksCommand } from '@aws-sdk/client-cloudformation';
-import { mockClient } from 'aws-sdk-client-mock';
-import { beforeEach, describe, expect, it } from 'vitest';
-import { getStacks } from './stacks';
+import { CloudFormationClient, ListStacksCommand } from '@aws-sdk/client-cloudformation'
+import { mockClient } from 'aws-sdk-client-mock'
+import { beforeEach, describe, expect, it } from 'vitest'
+import { getStacks } from './stacks'
 
-const cloudformationMock = mockClient(CloudFormationClient);
+const cloudformationMock = mockClient(CloudFormationClient)
 
 describe('getStacks', () => {
   beforeEach(() => {
-    cloudformationMock.reset();
-  });
+    cloudformationMock.reset()
+  })
 
   it('should return stack names', async () => {
     cloudformationMock
       .on(ListStacksCommand)
       .resolvesOnce({ StackSummaries: [
-        { StackName: 'stack-1', CreationTime: new Date(), StackStatus: 'CREATE_COMPLETE' },
-        { StackName: 'stack-2', CreationTime: new Date(), StackStatus: 'UPDATE_COMPLETE' },
-      ] });
+        { CreationTime: new Date(), StackName: 'stack-1', StackStatus: 'CREATE_COMPLETE' },
+        { CreationTime: new Date(), StackName: 'stack-2', StackStatus: 'UPDATE_COMPLETE' },
+      ] })
 
-    const stacks = await getStacks('us-east-1');
-    expect(stacks).toEqual(['stack-1', 'stack-2']);
-  });
+    const stacks = await getStacks('us-east-1')
+
+    expect(stacks).toEqual(['stack-1', 'stack-2'])
+  })
 
   it('should exclude CDKToolkit', async () => {
     cloudformationMock
       .on(ListStacksCommand)
       .resolvesOnce({ StackSummaries: [
-        { StackName: 'CDKToolkit', CreationTime: new Date(), StackStatus: 'CREATE_COMPLETE' },
-        { StackName: 'other-stack', CreationTime: new Date(), StackStatus: 'UPDATE_COMPLETE' },
-      ] });
+        { CreationTime: new Date(), StackName: 'CDKToolkit', StackStatus: 'CREATE_COMPLETE' },
+        { CreationTime: new Date(), StackName: 'other-stack', StackStatus: 'UPDATE_COMPLETE' },
+      ] })
 
-    const stacks = await getStacks('us-east-1');
-    expect(stacks).toEqual(['other-stack']);
-  });
+    const stacks = await getStacks('us-east-1')
+
+    expect(stacks).toEqual(['other-stack'])
+  })
 
   it('should handle regions with no stacks', async () => {
-    cloudformationMock.on(ListStacksCommand).resolvesOnce({ StackSummaries: [] });
-    const stacks = await getStacks('us-east-1');
-    expect(stacks).toEqual([]);
-  });
+    cloudformationMock.on(ListStacksCommand).resolvesOnce({ StackSummaries: [] })
+    const stacks = await getStacks('us-east-1')
+
+    expect(stacks).toEqual([])
+  })
 
   it('should throw when a next token is returned', async () => {
-    cloudformationMock.on(ListStacksCommand).resolvesOnce({ NextToken: 'token', StackSummaries: [] });
-    await expect(getStacks('eu-west-1')).rejects.toThrow('Pagination not supported');
-  });
+    cloudformationMock.on(ListStacksCommand).resolvesOnce({ NextToken: 'token', StackSummaries: [] })
+
+    await expect(getStacks('eu-west-1')).rejects.toThrow('Pagination not supported')
+  })
 
   it('should throw when StackName is undefined', async () => {
     cloudformationMock
       .on(ListStacksCommand)
       .resolvesOnce({ StackSummaries: [
-        { StackName: undefined, CreationTime: new Date(), StackStatus: 'CREATE_COMPLETE' },
-      ] });
+        { CreationTime: new Date(), StackName: undefined, StackStatus: 'CREATE_COMPLETE' },
+      ] })
 
-    await expect(getStacks('eu-west-1')).rejects.toThrow('StackName is undefined');
-  });
-});
+    await expect(getStacks('eu-west-1')).rejects.toThrow('StackName is undefined')
+  })
+})

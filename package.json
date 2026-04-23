@@ -6,7 +6,7 @@
     "bootstrap": "source .env && cdk bootstrap aws://$ACCOUNT_ID/eu-west-1 && cdk bootstrap aws://$ACCOUNT_ID/us-east-1",
     "build": "tsc",
     "ci": "pnpm run '/^(build|lint|test)$/'",
-    "lint": "eslint",
+    "lint": "eslint --max-warnings=0",
     "test": "vitest run",
     "test:update": "vitest run -u"
   },
@@ -18,7 +18,7 @@
     "aws-cdk-lib": "^2.238.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^7.4.3",
+    "@ml/eslint-config": "github:mellevanderlinde/eslint-config#v1.8.1",
     "@types/aws-lambda": "^8.10.160",
     "@types/node": "^25.3.0",
     "aws-sdk-client-mock": "^4.1.0",

@@ -1,14 +1,5 @@
-import antfu from '@antfu/eslint-config';
+// @ts-check
 
-export default antfu({
-  typescript: true,
-  rules: {
-    'no-new': 'off',
-    'ts/explicit-function-return-type': 'error',
-    'curly': 'error',
-    'capitalized-comments': 'error',
-    'import/first': ['error', 'absolute-first'],
-    'ts/consistent-type-imports': ['error', { prefer: 'no-type-imports' }],
-  },
-  stylistic: { semi: true },
-});
+import { defineConfig } from '@ml/eslint-config'
+
+export default defineConfig()

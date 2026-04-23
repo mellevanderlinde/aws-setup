@@ -533,13 +533,7 @@ exports[`stacks > garbage collection stack matches snapshot 1`] = `
               "",
               [
                 "{
-  "version": "0.2",
   "phases": {
-    "install": {
-      "commands": [
-        "npm install -g aws-cdk"
-      ]
-    },
     "build": {
       "commands": [
         "cdk gc aws://",
@@ -553,8 +547,14 @@ exports[`stacks > garbage collection stack matches snapshot 1`] = `
                 },
                 "/us-east-1 --unstable=gc --confirm=false --created-buffer-days=0"
       ]
+    },
+    "install": {
+      "commands": [
+        "npm install -g aws-cdk"
+      ]
     }
-  }
+  },
+  "version": "0.2"
 }",
               ],
             ],

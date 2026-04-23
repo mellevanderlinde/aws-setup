@@ -1,24 +1,21 @@
-import { Stack, StackProps } from 'aws-cdk-lib';
-import { PolicyDocument, PolicyStatement } from 'aws-cdk-lib/aws-iam';
-import { CfnAssignment, CfnPermissionSet } from 'aws-cdk-lib/aws-sso';
-import { Construct } from 'constructs';
-import { Region } from '../utils/types';
+import type { StackProps } from 'aws-cdk-lib'
+import type { Construct } from 'constructs'
+import type { Region } from '../utils/types'
+import { Stack } from 'aws-cdk-lib'
+import { PolicyDocument, PolicyStatement } from 'aws-cdk-lib/aws-iam'
+import { CfnAssignment, CfnPermissionSet } from 'aws-cdk-lib/aws-sso'
 
 export class IdentityCenterStack extends Stack {
-  constructor(scope: Construct, id: string, props: StackProps & { instanceArn: string; userId: string }) {
-    super(scope, id, props);
+  constructor(scope: Construct, id: string, props: StackProps & { instanceArn: string, userId: string }) {
+    super(scope, id, props)
 
     const developerPermissionSet = new CfnPermissionSet(this, 'DeveloperPermissionSet', {
-      instanceArn: props.instanceArn,
-      name: 'developer',
-      managedPolicies: ['arn:aws:iam::aws:policy/ReadOnlyAccess'],
       inlinePolicy: new PolicyDocument({
         statements: [
           ...this.bootstrapPermissions('eu-west-1'),
           ...this.bootstrapPermissions('us-east-1'),
           new PolicyStatement({
             actions: ['sts:AssumeRole'],
-            resources: ['*'],
             conditions: {
               StringEquals: {
                 'iam:ResourceTag/aws-cdk:bootstrap-role': [
@@ -29,6 +26,7 @@ export class IdentityCenterStack extends Stack {
                 ],
               },
             },
+            resources: ['*'],
           }),
           new PolicyStatement({
             actions: ['cloudfront:CreateInvalidation'],
@@ -40,13 +38,13 @@ export class IdentityCenterStack extends Stack {
           }),
         ],
       }),
+      instanceArn: props.instanceArn,
+      managedPolicies: ['arn:aws:iam::aws:policy/ReadOnlyAccess'],
+      name: 'developer',
       sessionDuration: 'PT12H', // 12 hours
-    });
+    })
 
     const administratorPermissionSet = new CfnPermissionSet(this, 'AdministratorPermissionSet', {
-      instanceArn: props.instanceArn,
-      name: 'administrator',
-      managedPolicies: ['arn:aws:iam::aws:policy/ReadOnlyAccess'],
       inlinePolicy: new PolicyDocument({
         statements: [
           new PolicyStatement({
@@ -55,26 +53,29 @@ export class IdentityCenterStack extends Stack {
           }),
         ],
       }),
+      instanceArn: props.instanceArn,
+      managedPolicies: ['arn:aws:iam::aws:policy/ReadOnlyAccess'],
+      name: 'administrator',
       sessionDuration: 'PT1H', // 1 hour
-    });
+    })
 
     new CfnAssignment(this, 'DeveloperAssignment', {
       instanceArn: props.instanceArn,
       permissionSetArn: developerPermissionSet.attrPermissionSetArn,
       principalId: props.userId,
       principalType: 'USER',
-      targetType: 'AWS_ACCOUNT',
       targetId: this.account,
-    });
+      targetType: 'AWS_ACCOUNT',
+    })
 
     new CfnAssignment(this, 'AdministratorAssignment', {
       instanceArn: props.instanceArn,
       permissionSetArn: administratorPermissionSet.attrPermissionSetArn,
       principalId: props.userId,
       principalType: 'USER',
-      targetType: 'AWS_ACCOUNT',
       targetId: this.account,
-    });
+      targetType: 'AWS_ACCOUNT',
+    })
   }
 
   private bootstrapPermissions(region: Region): PolicyStatement[] {
@@ -150,6 +151,6 @@ export class IdentityCenterStack extends Stack {
           `arn:aws:ecr:${region}:${this.account}:repository/cdk-hnb659fds-container-assets-${this.account}-${region}`,
         ],
       }),
-    ];
+    ]
   }
 }
