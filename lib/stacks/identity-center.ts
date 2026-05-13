@@ -1,6 +1,6 @@
 import type { StackProps } from 'aws-cdk-lib'
 import type { Construct } from 'constructs'
-import type { Region } from '../utils/types'
+import type { Region } from '../utils/regions'
 import { Stack } from 'aws-cdk-lib'
 import { PolicyDocument, PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import { CfnAssignment, CfnPermissionSet } from 'aws-cdk-lib/aws-sso'

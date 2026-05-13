@@ -1,6 +1,6 @@
 import type { StackProps } from 'aws-cdk-lib'
 import type { Construct } from 'constructs'
-import type { Region } from '../utils/types'
+import type { Region } from '../utils/regions'
 import { Duration, Stack } from 'aws-cdk-lib'
 import { BuildSpec, ComputeType, LinuxArmBuildImage, Project } from 'aws-cdk-lib/aws-codebuild'
 import { SnsTopic } from 'aws-cdk-lib/aws-events-targets'
@@ -11,10 +11,9 @@ import { Schedule, ScheduleExpression } from 'aws-cdk-lib/aws-scheduler'
 import { CodeBuildStartBuild } from 'aws-cdk-lib/aws-scheduler-targets'
 import { Topic } from 'aws-cdk-lib/aws-sns'
 import { EmailSubscription } from 'aws-cdk-lib/aws-sns-subscriptions'
+import { regions } from '../utils/regions'
 
 const projectName = 'garbage-collection'
-
-const regions: Region[] = ['eu-west-1', 'us-east-1']
 
 export class GarbageCollectionStack extends Stack {
   constructor(scope: Construct, id: string, props: StackProps & { email: string }) {
