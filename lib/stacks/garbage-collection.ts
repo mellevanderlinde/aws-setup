@@ -2,7 +2,7 @@ import type { StackProps } from 'aws-cdk-lib'
 import type { Construct } from 'constructs'
 import type { Region } from '../utils/types'
 import { Duration, Stack } from 'aws-cdk-lib'
-import { BuildSpec, Project } from 'aws-cdk-lib/aws-codebuild'
+import { BuildSpec, ComputeType, LinuxArmBuildImage, Project } from 'aws-cdk-lib/aws-codebuild'
 import { SnsTopic } from 'aws-cdk-lib/aws-events-targets'
 import { PolicyStatement } from 'aws-cdk-lib/aws-iam'
 import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs'
@@ -48,6 +48,10 @@ export class GarbageCollectionStack extends Stack {
         version: '0.2',
       }),
       concurrentBuildLimit: 1,
+      environment: {
+        buildImage: LinuxArmBuildImage.AMAZON_LINUX_2_STANDARD_3_0,
+        computeType: ComputeType.SMALL,
+      },
       logging: { cloudWatch: { logGroup } },
       projectName,
       timeout: Duration.minutes(5),
