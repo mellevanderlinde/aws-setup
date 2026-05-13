@@ -550,8 +550,11 @@ exports[`stacks > garbage collection stack matches snapshot 1`] = `
     },
     "install": {
       "commands": [
-        "npm install -g aws-cdk"
-      ]
+        "npm install -g aws-cdk@2.1121.0"
+      ],
+      "runtime-versions": {
+        "nodejs": 24
+      }
     }
   },
   "version": "0.2"

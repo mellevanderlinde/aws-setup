@@ -39,7 +39,10 @@ export class GarbageCollectionStack extends Stack {
             commands: regions.map(region => `cdk gc aws://${this.account}/${region} --unstable=gc --confirm=false --created-buffer-days=0`),
           },
           install: {
-            commands: ['npm install -g aws-cdk'],
+            'commands': ['npm install -g aws-cdk@2.1121.0'],
+            'runtime-versions': {
+              nodejs: 24,
+            },
           },
         },
         version: '0.2',
