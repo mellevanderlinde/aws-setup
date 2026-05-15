@@ -6,6 +6,5 @@ const client = new SNSClient()
 const topicArn = getEnv('TOPIC_ARN')
 
 export async function notify(message: string): Promise<void> {
-  const command = new PublishCommand({ Message: message, TopicArn: topicArn })
-  await client.send(command)
+  await client.send(new PublishCommand({ Message: message, TopicArn: topicArn }))
 }

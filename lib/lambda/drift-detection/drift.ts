@@ -6,11 +6,7 @@ import { assertDefined } from '../../utils/assert-defined'
 
 export async function detectDrift(stackName: string, region: Region): Promise<StackDriftStatus> {
   const client = new CloudFormationClient({ region })
-
-  const { StackDriftDetectionId } = await client.send(
-    new DetectStackDriftCommand({ StackName: stackName }),
-  )
-
+  const { StackDriftDetectionId } = await client.send(new DetectStackDriftCommand({ StackName: stackName }))
   return pollUntilComplete(client, assertDefined(StackDriftDetectionId))
 }
 
@@ -20,10 +16,8 @@ async function pollUntilComplete(client: CloudFormationClient, detectionId: stri
   const { DetectionStatus, StackDriftStatus } = await client.send(
     new DescribeStackDriftDetectionStatusCommand({ StackDriftDetectionId: detectionId }),
   )
-
   if (DetectionStatus === 'DETECTION_IN_PROGRESS') {
     return pollUntilComplete(client, detectionId)
   }
-
   return StackDriftStatus || 'UNKNOWN'
 }
