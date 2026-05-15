@@ -13,9 +13,8 @@ export async function getInstance(): Promise<Instance> {
   if (Instances?.length !== 1) {
     throw new Error('Unexpected number of instances')
   }
-  const { IdentityStoreId, InstanceArn } = Instances[0]
   return {
-    identityStoreId: assertDefined(IdentityStoreId),
-    instanceArn: assertDefined(InstanceArn),
+    identityStoreId: assertDefined(Instances[0].IdentityStoreId),
+    instanceArn: assertDefined(Instances[0].InstanceArn),
   }
 }
