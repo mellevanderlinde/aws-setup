@@ -56,6 +56,6 @@ describe('getStacks', () => {
         { CreationTime: new Date(), StackName: undefined, StackStatus: 'CREATE_COMPLETE' },
       ] })
 
-    await expect(getStacks('eu-west-1')).rejects.toThrow('StackName is undefined')
+    await expect(getStacks('eu-west-1')).rejects.toThrow('Value is undefined')
   })
 })

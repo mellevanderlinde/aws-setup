@@ -15,7 +15,7 @@ export async function getInstance(): Promise<Instance> {
   }
   const { IdentityStoreId, InstanceArn } = Instances[0]
   return {
-    identityStoreId: assertDefined(IdentityStoreId, 'IdentityStoreId'),
-    instanceArn: assertDefined(InstanceArn, 'InstanceArn'),
+    identityStoreId: assertDefined(IdentityStoreId),
+    instanceArn: assertDefined(InstanceArn),
   }
 }

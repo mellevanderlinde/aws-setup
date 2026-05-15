@@ -1,6 +1,6 @@
-export function assertDefined<T>(value: T | undefined, name: string): T {
+export function assertDefined<T>(value: T | undefined): T {
   if (value === undefined) {
-    throw new Error(`${name} is undefined`)
+    throw new Error('Value is undefined')
   }
   return value
 }

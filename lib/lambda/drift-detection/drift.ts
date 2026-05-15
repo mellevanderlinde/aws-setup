@@ -11,7 +11,7 @@ export async function detectDrift(stackName: string, region: Region): Promise<St
     new DetectStackDriftCommand({ StackName: stackName }),
   )
 
-  return pollUntilComplete(client, assertDefined(StackDriftDetectionId, 'StackDriftDetectionId'))
+  return pollUntilComplete(client, assertDefined(StackDriftDetectionId))
 }
 
 async function pollUntilComplete(client: CloudFormationClient, detectionId: string): Promise<StackDriftStatus> {

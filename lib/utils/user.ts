@@ -17,5 +17,5 @@ export async function getUserId(props: {
     IdentityStoreId: props.identityStoreId,
   })
   const { UserId } = await client.send(command)
-  return assertDefined(UserId, 'UserId')
+  return assertDefined(UserId)
 }

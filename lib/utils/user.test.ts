@@ -34,6 +34,6 @@ describe ('getUserId', () => {
         identityStoreId: 'd-1234567890',
         username: 'testuser',
       }),
-    ).rejects.toThrow('UserId is undefined')
+    ).rejects.toThrow('Value is undefined')
   })
 })

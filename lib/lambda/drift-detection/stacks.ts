@@ -22,5 +22,5 @@ export async function getStacks(region: Region): Promise<string[]> {
 
   return StackSummaries
     ?.filter(s => s.StackName !== 'CDKToolkit') // Exclude CDKToolkit (managed by CDK) which often shows drift (even right after a fresh bootstrap)
-    .map(s => assertDefined(s.StackName, 'StackName')) || []
+    .map(s => assertDefined(s.StackName)) || []
 }

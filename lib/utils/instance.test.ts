@@ -60,7 +60,7 @@ describe ('getInstance', () => {
       ],
     })
 
-    await expect(getInstance()).rejects.toThrow('InstanceArn is undefined')
+    await expect(getInstance()).rejects.toThrow('Value is undefined')
   })
 
   it('should throw an error if identity store ID is missing', async () => {
@@ -72,6 +72,6 @@ describe ('getInstance', () => {
       ],
     })
 
-    await expect(getInstance()).rejects.toThrow('IdentityStoreId is undefined')
+    await expect(getInstance()).rejects.toThrow('Value is undefined')
   })
 })
